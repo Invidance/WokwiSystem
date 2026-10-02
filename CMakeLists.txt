@@ -40,7 +40,13 @@ add_subdirectory(cmake/stm32cubemx)
 # Shared with the HAL and FreeRTOS object libraries, not just main.c.
 option(WOKWI_SIMULATION "Enable STM32F103 Wokwi compatibility workarounds" ON)
 if(WOKWI_SIMULATION)
-    target_compile_definitions(stm32cubemx INTERFACE WOKWI_ENABLED=1)
+    target_compile_definitions(stm32cubemx INTERFACE
+        WOKWI_ENABLED=1
+        # Make SystemInit() program SCB->VTOR explicitly.  The STM32F103
+        # normally boots with Flash aliased at address zero, but the Wokwi
+        # model did not dispatch SVC through that alias during RTOS startup.
+        USER_VECT_TAB_ADDRESS=1
+    )
 endif()
 
 # Link directories setup
