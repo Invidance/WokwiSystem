@@ -18,11 +18,20 @@ static void copy_bytes(uint8_t *destination,
   }
 }
 
-static bool send_command(ssd1306_t *display, uint8_t command)
+static bool send_commands(ssd1306_t *display,
+                          const uint8_t *commands,
+                          uint8_t length)
 {
-  uint8_t packet[2] = {0x00U, command};
+  uint8_t packet[32];
+  if ((commands == NULL) || (length == 0U) ||
+      (length >= sizeof(packet))) {
+    return false;
+  }
+
+  packet[0] = 0x00U;
+  copy_bytes(&packet[1], commands, length);
   return HAL_I2C_Master_Transmit(display->i2c, display->address,
-                                 packet, sizeof(packet),
+                                 packet, (uint16_t)length + 1U,
                                  SSD1306_TIMEOUT_MS) == HAL_OK;
 }
 
@@ -110,10 +119,8 @@ bool ssd1306_init(ssd1306_t *display,
     0x8D, 0x14,       /* charge pump */
     0xAF              /* display on */
   };
-  for (uint32_t i = 0U; i < sizeof(init_commands); ++i) {
-    if (!send_command(display, init_commands[i])) {
-      return false;
-    }
+  if (!send_commands(display, init_commands, sizeof(init_commands))) {
+    return false;
   }
   display->initialized = true;
   ssd1306_clear(display);
@@ -165,17 +172,24 @@ bool ssd1306_update(ssd1306_t *display)
     return false;
   }
 
-  uint8_t packet[SSD1306_WIDTH + 1U];
+  /*
+   * The controller is in horizontal addressing mode. Define the complete
+   * framebuffer window once, then stream the 1024 bytes in small I2C chunks.
+   */
+  static const uint8_t address_window[] = {
+    0x21U, 0x00U, 0x7FU, /* columns 0..127 */
+    0x22U, 0x00U, 0x07U  /* pages 0..7 */
+  };
+  if (!send_commands(display, address_window, sizeof(address_window))) {
+    return false;
+  }
+
+  enum { DATA_CHUNK_SIZE = 16U };
+  uint8_t packet[DATA_CHUNK_SIZE + 1U];
   packet[0] = 0x40U;
-  for (uint8_t page = 0U; page < 8U; ++page) {
-    if (!send_command(display, (uint8_t)(0xB0U + page)) ||
-        !send_command(display, 0x00U) ||
-        !send_command(display, 0x10U)) {
-      return false;
-    }
-    copy_bytes(&packet[1],
-               &display->buffer[(uint16_t)page * SSD1306_WIDTH],
-               SSD1306_WIDTH);
+  for (uint16_t offset = 0U; offset < sizeof(display->buffer);
+       offset += DATA_CHUNK_SIZE) {
+    copy_bytes(&packet[1], &display->buffer[offset], DATA_CHUNK_SIZE);
     if (HAL_I2C_Master_Transmit(display->i2c, display->address,
                                 packet, sizeof(packet),
                                 SSD1306_TIMEOUT_MS) != HAL_OK) {

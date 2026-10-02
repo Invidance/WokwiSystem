@@ -1,6 +1,8 @@
 [wokwi]
 version = 1
 firmware = 'build/Debug/WokwiSystem.elf'
+elf = 'build/Debug/WokwiSystem.elf'
+gdbServerPort = 3333
 
 [[chip]]
 name = 'bmp280'
