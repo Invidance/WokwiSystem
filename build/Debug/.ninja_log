@@ -1,0 +1,24 @@
+# ninja log v7
+0	4	1790945916134052238	CMakeFiles/clean.additional	cc741e087992106a
+4	7	1790945916139418802	clean	2f24ad53a15b0fd1
+3	19	1790945916220489915	CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj	54ad653915f87835
+1	43	1790945916219552309	CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj	c8f988a97533f27
+2	77	1790945916219868348	CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj	46484ec2fc090688
+4	97	1790945916222341040	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj	c72c1f6901387c94
+1	90	1790946140754550531	CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj	caa0a84e54421c82
+4	129	1790945916221506356	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj	345a8df430098a
+1	146	1790945916218049806	CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj	47211cc28ca52330
+43	163	1790945916260048590	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj	9970ec69c72e2e44
+7	165	1790945916224049633	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj	b189a2e652f68095
+1	167	1790945916219218249	CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj	990efa8daab08fe3
+19	196	1790945916237049418	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj	90b2729ec02fb7d4
+78	229	1790945916294047606	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj	cf516d0d4089bf5d
+129	237	1790945916346046101	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj	9f0e9a348f1c01a8
+98	253	1790945916315699139	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj	a5bfd9ec5d45a3da
+111	258	1790945916329224677	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj	8bbb6ef73622292f
+146	264	1790945916363045609	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj	36aa892609ba5a73
+166	280	1790945916383741651	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj	6610dc85d1334f01
+5	306	1790945916222893243	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj	f780fd0b27a109db
+164	307	1790945916381602028	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj	ab7104f65c386bbf
+167	324	1790945916385044972	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj	33d94f997ba60b63
+90	138	1790946140842547984	WokwiSystem.elf	525c44fa2eb32afc

@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "author": "Maks",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-stm32-bluepill",
+      "id": "stm32",
+      "top": 165,
+      "left": 355,
+      "attrs": {}
+    },
+
+    {
+      "type": "chip-bmp280",
+      "id": "bmpI2C",
+      "top": 185,
+      "left": 170,
+      "attrs": {
+        "pressure": "101325",
+        "noise": "30",
+        "spike": "0"
+      }
+    },
+
+    {
+      "type": "chip-bmp280",
+      "id": "bmpSPI",
+      "top": 355,
+      "left": 550,
+      "attrs": {
+        "pressure": "100900",
+        "noise": "80",
+        "spike": "1"
+      }
+    },
+
+    {
+      "type": "wokwi-text",
+      "id": "titleI2C",
+      "top": 135,
+      "left": 165,
+      "attrs": {
+        "text": "I2C BMP280",
+        "color": "white",
+        "scale": "0.75"
+      }
+    },
+
+    {
+      "type": "wokwi-text",
+      "id": "titleSPI",
+      "top": 305,
+      "left": 570,
+      "attrs": {
+        "text": "SPI BMP280",
+        "color": "white",
+        "scale": "0.75"
+      }
+    },
+
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": 440,
+      "left": 150,
+      "attrs": {
+        "i2cAddress": "0x3c"
+      }
+    }
+    
+  ],
+
+  "connections": [
+    ["stm32:3V3.1", "bmpI2C:VCC", "red",   ["h-30", "*", "h-30"]],
+    ["stm32:GND.1", "bmpI2C:GND", "black", ["h-40", "*", "h-40"]],
+    ["stm32:B6",    "bmpI2C:SCL", "green", ["h-50", "*", "h-50"]],
+    ["stm32:B7",    "bmpI2C:SDA", "blue",  ["h-60", "*", "h-60"]],
+
+    ["stm32:3V3.2", "bmpSPI:VCC", "red",    ["h40",  "*", "h-30"]],
+    ["stm32:GND.2", "bmpSPI:GND", "black",  ["h50",  "*", "h-40"]],
+    ["stm32:A5",    "bmpSPI:SCK", "green",  ["h72",  "*", "h30"]],
+    ["stm32:A7",    "bmpSPI:SDI", "purple", ["h84",  "*", "h40"]],
+    ["stm32:A6",    "bmpSPI:SDO", "blue",   ["h96",  "*", "h50"]],
+    ["stm32:A4",    "bmpSPI:CS",  "orange", ["h108", "*", "h60"]],
+
+    ["stm32:5V.1", "oled:VCC", "red", []],
+    ["stm32:GND.1", "oled:GND", "black", []],
+    ["stm32:B6", "oled:SCL", "green", []],
+    ["stm32:B7", "oled:SDA", "blue", []]
+  ],
+
+  "serialMonitor": {
+    "display": "always",
+    "newline": "lf"
+  },
+
+  "dependencies": {}
+}

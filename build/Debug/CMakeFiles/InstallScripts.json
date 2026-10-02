@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/maks/stm32/WokwiSystem/build/Debug/cmake_install.cmake",
+		"/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

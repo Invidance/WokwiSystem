@@ -1,0 +1,7 @@
+[wokwi]
+version = 1
+firmware = 'build/Debug/WokwiSystem.elf'
+
+[[chip]]
+name = 'bmp280'
+binary = 'chips/bmp280.chip.wasm'

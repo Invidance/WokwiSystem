@@ -1,0 +1,122 @@
+[
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/main.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/main.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_it.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_it.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/sysmem.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/sysmem.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/syscalls.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/syscalls.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -x assembler-with-cpp -MMD -MP -g -o CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj -c /home/maks/stm32/WokwiSystem/startup_stm32f103xb.s",
+  "file": "/home/maks/stm32/WokwiSystem/startup_stm32f103xb.s",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/system_stm32f1xx.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/system_stm32f1xx.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj -c /home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c",
+  "file": "/home/maks/stm32/WokwiSystem/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj"
+}
+]
