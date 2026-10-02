@@ -47,7 +47,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/bmp280.c
     Core/Src/ssd1306.c
-    Core/Src/pressure_monitor.c
+    Core/Src/app_tasks.c
+    Core/Src/pressure_processing.c
 )
 
 # Add include paths

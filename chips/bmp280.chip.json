@@ -16,8 +16,8 @@
       "id": "pressure",
       "label": "Pressure (Pa)",
       "type": "range",
-      "min": 90000,
-      "max": 110000,
+      "min": 20000,
+      "max": 125000,
       "step": 10
     },
     {

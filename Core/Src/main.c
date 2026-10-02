@@ -22,9 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "pressure_monitor.h"
-#include "stm32f103xb.h"
-#include "stm32f1xx_hal_gpio.h"
+#include "app_tasks.h"
 #include "app_types.h"
 /* USER CODE END Includes */
 
@@ -141,7 +139,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  pressure_monitor_init(&hi2c1, &hspi1);
+  /* Sensor/display initialization belongs to their tasks, after kernel start. */
  
   /* USER CODE END 2 */
 
@@ -152,7 +150,9 @@ int main(void)
   i2cmutexHandle = osMutexNew(&i2cmutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
+  if (osKernelGetState() != osKernelReady) { app_panic(APP_FAULT_KERNEL); }
+  if (i2cmutexHandle == NULL) { app_panic(APP_FAULT_OBJECT); }
+  /* The CMSIS FreeRTOS wrapper creates a priority-inheriting mutex. */
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
@@ -171,7 +171,9 @@ int main(void)
   DisplayQueueHandle = osMessageQueueNew (2, sizeof(DisplayData_t), &DisplayQueue_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+  if (RawQueueHandle == NULL || DisplayQueueHandle == NULL) {
+    app_panic(APP_FAULT_OBJECT);
+  }
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -185,7 +187,8 @@ int main(void)
   DisplayTaskHandle = osThreadNew(StartDisplayTask, NULL, &DisplayTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  if (SensorTaskHandle == NULL || ProcessingTaskHandle == NULL ||
+      DisplayTaskHandle == NULL) { app_panic(APP_FAULT_OBJECT); }
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -199,11 +202,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  app_panic(APP_FAULT_KERNEL); /* osKernelStart must not return. */
   while (1)
   {
-    pressure_monitor_update();
-    HAL_Delay(10U);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -407,11 +408,8 @@ static void MX_GPIO_Init(void)
 void StartSensorTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  (void)argument;
+  app_sensor_task();
   /* USER CODE END 5 */
 }
 
@@ -425,11 +423,8 @@ void StartSensorTask(void *argument)
 void StartProcessingTask(void *argument)
 {
   /* USER CODE BEGIN StartProcessingTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  (void)argument;
+  app_processing_task();
   /* USER CODE END StartProcessingTask */
 }
 
@@ -443,11 +438,8 @@ void StartProcessingTask(void *argument)
 void StartDisplayTask(void *argument)
 {
   /* USER CODE BEGIN StartDisplayTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
+  (void)argument;
+  app_display_task();
   /* USER CODE END StartDisplayTask */
 }
 
@@ -480,11 +472,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+  app_panic(APP_FAULT_HAL);
   /* USER CODE END Error_Handler_Debug */
 }
 #ifdef USE_FULL_ASSERT

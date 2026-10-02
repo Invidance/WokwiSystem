@@ -72,6 +72,8 @@
   ],
 
   "connections": [
+    ["stm32:A9", "$serialMonitor:RX", "", []],
+    ["stm32:A10", "$serialMonitor:TX", "", []],
     ["stm32:3V3.1", "bmpI2C:VCC", "red",   ["h-30", "*", "h-30"]],
     ["stm32:GND.1", "bmpI2C:GND", "black", ["h-40", "*", "h-40"]],
     ["stm32:B6",    "bmpI2C:SCL", "green", ["h-50", "*", "h-50"]],

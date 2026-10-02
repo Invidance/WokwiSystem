@@ -1,6 +1,6 @@
 #include "ssd1306.h"
+#include "app_config.h"
 
-#define SSD1306_TIMEOUT_MS 100U
 #define SSD1306_COMMAND    0x00U
 #define SSD1306_DATA       0x40U
 
@@ -20,24 +20,30 @@ static void copy_bytes(uint8_t *destination,
   }
 }
 
-static bool save_status(ssd1306_t *display, HAL_StatusTypeDef status)
+static bool save_status(ssd1306_t *display, HAL_StatusTypeDef status,
+                        ssd1306_phase_t phase, uint8_t command, uint8_t page)
 {
   display->last_status = status;
   display->last_i2c_error = HAL_I2C_GetError(display->i2c);
   if (status != HAL_OK) {
     display->initialized = false;
+    display->failure.phase = phase;
+    display->failure.command = command;
+    display->failure.page = page;
+    display->failure.status = status;
+    display->failure.i2c_error = display->last_i2c_error;
+    display->failure.hal_tick = HAL_GetTick();
+    ++display->failure.count;
   }
   return status == HAL_OK;
 }
 
-static bool send_byte(ssd1306_t *display, uint8_t control, uint8_t value)
+static bool send_command(ssd1306_t *display, uint8_t value,
+                         ssd1306_phase_t phase, uint8_t page)
 {
-  /* Use the same two-byte transaction for commands and RAM data. */
-  uint8_t packet[2] = {control, value};
-  HAL_StatusTypeDef status = HAL_I2C_Master_Transmit(
-      display->i2c, display->address, packet, sizeof(packet),
-      SSD1306_TIMEOUT_MS);
-  return save_status(display, status);
+  HAL_StatusTypeDef status = HAL_I2C_Mem_Write(display->i2c, display->address,
+      SSD1306_COMMAND, I2C_MEMADD_SIZE_8BIT, &value, 1U, APP_IO_TIMEOUT_MS);
+  return save_status(display, status, phase, value, page);
 }
 
 static void glyph(char character, uint8_t output[5])
@@ -95,14 +101,13 @@ bool ssd1306_init(ssd1306_t *display,
   if ((display == NULL) || (i2c == NULL)) {
     return false;
   }
-  *display = (ssd1306_t){0};
+  display->initialized = false;
   display->i2c = i2c;
   display->address = (uint16_t)address_7bit << 1;
-  HAL_Delay(100U);
 
   HAL_StatusTypeDef status = HAL_I2C_IsDeviceReady(
-      display->i2c, display->address, 3U, SSD1306_TIMEOUT_MS);
-  if (!save_status(display, status)) {
+      display->i2c, display->address, 1U, APP_IO_TIMEOUT_MS);
+  if (!save_status(display, status, SSD1306_PROBE, 0U, 0U)) {
     return false;
   }
 
@@ -126,7 +131,7 @@ bool ssd1306_init(ssd1306_t *display,
     0xAF              /* display on */
   };
   for (uint16_t i = 0U; i < sizeof(init_commands); ++i) {
-    if (!send_byte(display, SSD1306_COMMAND, init_commands[i])) {
+    if (!send_command(display, init_commands[i], SSD1306_INIT_COMMAND, 0U)) {
       return false;
     }
   }
@@ -175,31 +180,29 @@ void ssd1306_write_text(ssd1306_t *display,
   }
 }
 
-bool ssd1306_update(ssd1306_t *display)
+bool ssd1306_update_page(ssd1306_t *display, uint8_t page)
 {
-  if ((display == NULL) || (display->i2c == NULL) || !display->initialized) {
+  if ((display == NULL) || (display->i2c == NULL) || !display->initialized ||
+      page >= SSD1306_PAGES) {
     return false;
   }
 
   /*
-   * The controller is in horizontal addressing mode. Define the complete
-   * framebuffer window once. Each following data byte advances the RAM
-   * address, including across STOP/START boundaries between transactions.
+   * Horizontal addressing, restricted to one page. No page-mode commands.
+   * Send 128 bytes in one transaction instead of 128 separate transactions.
    */
-  static const uint8_t address_window[] = {
+  const uint8_t address_window[] = {
     0x21U, 0x00U, 0x7FU, /* columns 0..127 */
-    0x22U, 0x00U, 0x07U  /* pages 0..7 */
+    0x22U, page, page
   };
   for (uint16_t i = 0U; i < sizeof(address_window); ++i) {
-    if (!send_byte(display, SSD1306_COMMAND, address_window[i])) {
+    if (!send_command(display, address_window[i], SSD1306_WINDOW_COMMAND, page)) {
       return false;
     }
   }
 
-  for (uint16_t offset = 0U; offset < sizeof(display->buffer); ++offset) {
-    if (!send_byte(display, SSD1306_DATA, display->buffer[offset])) {
-      return false;
-    }
-  }
-  return true;
+  HAL_StatusTypeDef status = HAL_I2C_Mem_Write(display->i2c, display->address,
+      SSD1306_DATA, I2C_MEMADD_SIZE_8BIT, &display->buffer[page * SSD1306_WIDTH],
+      SSD1306_WIDTH, APP_IO_TIMEOUT_MS);
+  return save_status(display, status, SSD1306_PAGE_DATA, 0U, page);
 }

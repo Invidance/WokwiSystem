@@ -23,6 +23,8 @@ typedef struct {
   // Register state
   uint8_t regs[256];
   uint8_t reg_ptr;
+  uint8_t i2c_snapshot[6];
+  uint8_t spi_snapshot[6];
 
   // I2C
   i2c_dev_t i2c;
@@ -81,12 +83,13 @@ static void update_sensor_data(chip_state_t *chip) {
     pressure += 5000; // +50 hPa spike
   }
 
-  if (pressure < 30000) {
-    pressure = 30000;
+  /* Clamp only to the encoding capacity, NOT the application's valid range. */
+  if (pressure < 0) {
+    pressure = 0;
   }
 
-  if (pressure > 120000) {
-    pressure = 120000;
+  if (pressure > 131071) {
+    pressure = 131071;
   }
 
   /*
@@ -99,13 +102,13 @@ static void update_sensor_data(chip_state_t *chip) {
   uint32_t raw_pressure = (uint32_t)pressure << 3;
 
   chip->regs[BMP280_PRESS_MSB] =
-      (raw_pressure >> 16) & 0xFF;
+      (raw_pressure >> 12) & 0xFF;
 
   chip->regs[BMP280_PRESS_LSB] =
-      (raw_pressure >> 8) & 0xFF;
+      (raw_pressure >> 4) & 0xFF;
 
   chip->regs[BMP280_PRESS_XLSB] =
-      raw_pressure & 0xF0;
+      (raw_pressure & 0x0F) << 4;
 
   // fixed synthetic temperature raw value
   uint32_t raw_temp = 25U << 12;
@@ -132,7 +135,17 @@ static void sensor_timer_callback(void *user_data) {
 // Register access
 // ---------------------------------------------------------
 
-static uint8_t read_register(chip_state_t *chip, uint8_t reg) {
+static void snapshot_data(chip_state_t *chip, uint8_t snapshot[6]) {
+  for (uint8_t i = 0; i < 6; ++i) {
+    snapshot[i] = chip->regs[BMP280_PRESS_MSB + i];
+  }
+}
+
+static uint8_t read_register(chip_state_t *chip, uint8_t reg,
+                             const uint8_t snapshot[6]) {
+  if (reg >= BMP280_PRESS_MSB && reg <= BMP280_TEMP_XLSB) {
+    return snapshot[reg - BMP280_PRESS_MSB];
+  }
   return chip->regs[reg];
 }
 
@@ -173,6 +186,10 @@ static bool i2c_connect(
 ) {
   chip_state_t *chip = (chip_state_t *)user_data;
 
+  (void)address;
+  if (read) {
+    snapshot_data(chip, chip->i2c_snapshot);
+  }
   if (!read) {
     chip->i2c_expect_register = true;
   }
@@ -185,7 +202,7 @@ static uint8_t i2c_read_byte(void *user_data) {
   chip_state_t *chip = (chip_state_t *)user_data;
 
   uint8_t value =
-      read_register(chip, chip->reg_ptr);
+      read_register(chip, chip->reg_ptr, chip->i2c_snapshot);
 
   chip->reg_ptr++;
 
@@ -215,6 +232,7 @@ static bool i2c_write_byte(
 
 
 static void i2c_disconnect(void *user_data) {
+  (void)user_data;
   // Register pointer intentionally preserved:
   // HAL_I2C_Mem_Read often performs write-register-address
   // followed by repeated-start read.
@@ -261,7 +279,7 @@ static void spi_done(
 
     if (chip->spi_read) {
       chip->spi_buffer =
-          read_register(chip, chip->spi_reg);
+          read_register(chip, chip->spi_reg, chip->spi_snapshot);
     } else {
       chip->spi_buffer = 0;
     }
@@ -272,7 +290,7 @@ static void spi_done(
       chip->spi_reg++;
 
       chip->spi_buffer =
-          read_register(chip, chip->spi_reg);
+          read_register(chip, chip->spi_reg, chip->spi_snapshot);
 
     } else {
       write_register(
@@ -302,8 +320,10 @@ static void cs_changed(
     uint32_t value
 ) {
   chip_state_t *chip = (chip_state_t *)user_data;
+  (void)pin;
 
   if (value == LOW) {
+    snapshot_data(chip, chip->spi_snapshot);
     chip->spi_first_byte = true;
     chip->spi_buffer = 0;
 
