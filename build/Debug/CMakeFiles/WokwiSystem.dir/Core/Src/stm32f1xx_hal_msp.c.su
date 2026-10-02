@@ -3,3 +3,5 @@
 /home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c:126:6:HAL_I2C_MspDeInit	16	static
 /home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c:157:6:HAL_SPI_MspInit	40	static
 /home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c:198:6:HAL_SPI_MspDeInit	16	static
+/home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c:228:6:HAL_UART_MspInit	40	static
+/home/maks/stm32/WokwiSystem/Core/Src/stm32f1xx_hal_msp.c:268:6:HAL_UART_MspDeInit	16	static
