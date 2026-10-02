@@ -95,8 +95,11 @@ UART уже з’єднаний із Serial Monitor. Збережено наяв
 
 Через зафіксований у Wokwi стан `HAL_I2C_ERROR_TIMEOUT`, після якого I2C1
 залишається `BUSY`, збірка `WOKWI_SIMULATION=ON` використовує простий GPIO-I2C
-master на тих самих PB6/PB7. Він підтримує ACK, repeated START, відновлення
+master на PB8/PB9. Він підтримує ACK, repeated START, відновлення
 дев’ятьма імпульсами та обслуговує обидва пристрої під наявним м’ютексом.
+У Wokwi `MX_I2C1_Init()` пропускається повністю, щоб симульований peripheral не
+захоплював PB6/PB7; у `diagram.json` обидва пристрої перенесені на PB8/PB9 та
+додані явні pull-up 4.7 кОм.
 Штатний I2C1 не використовується для транзакцій у симуляції. Фізична збірка
 `WOKWI_SIMULATION=OFF` і далі використовує `HAL_I2C_Mem_Read/Write`.
 

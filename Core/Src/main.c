@@ -135,7 +135,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+#if !defined(WOKWI_ENABLED)
   MX_I2C1_Init();
+#else
+  (void)MX_I2C1_Init; /* Keep the CubeMX-generated function, but do not run it. */
+#endif
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */

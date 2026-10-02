@@ -6,7 +6,7 @@
 
 /*
  * GPIO I2C master used only by the Wokwi build.  It bypasses the simulated
- * STM32 I2C1 state machine while keeping the same PB6/PB7 bus and devices.
+ * STM32 I2C1 state machine. The simulator diagram connects it to PB8/PB9.
  */
 HAL_StatusTypeDef wokwi_i2c_init(void);
 HAL_StatusTypeDef wokwi_i2c_recover(void);

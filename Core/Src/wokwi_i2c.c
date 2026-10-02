@@ -1,8 +1,8 @@
 #include "wokwi_i2c.h"
 
 #define SOFT_I2C_PORT       GPIOB
-#define SOFT_I2C_SCL        GPIO_PIN_6
-#define SOFT_I2C_SDA        GPIO_PIN_7
+#define SOFT_I2C_SCL        GPIO_PIN_8
+#define SOFT_I2C_SDA        GPIO_PIN_9
 #define SOFT_I2C_STRETCH_MAX 200U
 
 static bool configured;
@@ -41,8 +41,11 @@ static void configure_pins(void)
   if (configured) { return; }
 
   __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_I2C1_FORCE_RESET();
-  __HAL_RCC_I2C1_RELEASE_RESET();
+
+  /* PB8/PB9 are plain GPIO in the Wokwi build.  Do not use the simulated
+   * I2C1 pins PB6/PB7: that peripheral model may keep SCL low. */
+  scl_release();
+  sda_release();
 
   GPIO_InitTypeDef gpio = {0};
   gpio.Pin = SOFT_I2C_SCL | SOFT_I2C_SDA;
