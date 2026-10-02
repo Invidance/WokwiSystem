@@ -93,6 +93,13 @@ UART уже з’єднаний із Serial Monitor. Збережено наяв
 у симуляції пропускається SystemClock_Config, початковий HSI/SystemCoreClock —
 8 МГц. Це поточне налаштування, а не підтвердження точності часу в симуляторі.
 
+Через зафіксований у Wokwi стан `HAL_I2C_ERROR_TIMEOUT`, після якого I2C1
+залишається `BUSY`, збірка `WOKWI_SIMULATION=ON` використовує простий GPIO-I2C
+master на тих самих PB6/PB7. Він підтримує ACK, repeated START, відновлення
+дев’ятьма імпульсами та обслуговує обидва пристрої під наявним м’ютексом.
+Штатний I2C1 не використовується для транзакцій у симуляції. Фізична збірка
+`WOKWI_SIMULATION=OFF` і далі використовує `HAL_I2C_Mem_Read/Write`.
+
 ### Окремий FreeRTOS port для Wokwi
 
 У Wokwi STM32F103 підтверджено дві несумісності штатного Cortex-M3 port:
@@ -152,7 +159,7 @@ print xTickCount
 Зупинка на кожній із трьох задач підтверджує запуск планувальника. Breakpoint на
 `SVC_Handler` або `PendSV_Handler` у цій збірці спрацьовувати не повинен — ці
 винятки навмисно виключені з Wokwi-port. У UART очікується префікс
-`BOOT PRESSURE PORT=WOKWI-DIRECT`.
+`BOOT PRESSURE PORT=WOKWI-DIRECT I2C=SOFT`.
 
 CubeMX-конфігурація містить перевірки heap/stack, 8192 байти RTOS heap та
 наявні розміри черг/стеків. При регенерації ввімкнути Keep User Code.

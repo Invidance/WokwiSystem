@@ -4,6 +4,9 @@
 #include "bmp280.h"
 #include "pressure_processing.h"
 #include "ssd1306.h"
+#if defined(WOKWI_ENABLED)
+#include "wokwi_i2c.h"
+#endif
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -24,8 +27,10 @@ static ssd1306_t oled; /* DisplayTask is the sole owner. */
 
 #if defined(WOKWI_ENABLED)
 #define APP_RTOS_PORT_NAME "WOKWI-DIRECT"
+#define APP_I2C_TRANSPORT_NAME "SOFT"
 #else
 #define APP_RTOS_PORT_NAME "ARM-CM3"
+#define APP_I2C_TRANSPORT_NAME "HAL"
 #endif
 
 _Noreturn void app_panic(AppFault fault)
@@ -89,11 +94,15 @@ static void recover_i2c(HAL_StatusTypeDef status, uint32_t error)
   }
   attempted = true;
   last_attempt = now_ms();
+#if defined(WOKWI_ENABLED)
+  app_debug.recovery_status = wokwi_i2c_recover();
+#else
   SET_BIT(hi2c1.Instance->CR1, I2C_CR1_STOP);
   (void)HAL_I2C_DeInit(&hi2c1);
   __HAL_RCC_I2C1_FORCE_RESET();
   __HAL_RCC_I2C1_RELEASE_RESET();
   app_debug.recovery_status = HAL_I2C_Init(&hi2c1);
+#endif
   ++app_debug.i2c_recoveries;
 }
 
@@ -277,6 +286,11 @@ static bool update_oled(const DisplayData_t *data)
     if (!sent) { recover_i2c(oled.last_status, oled.last_i2c_error); }
     osMutexRelease(i2cmutexHandle);
     if (!sent) { return false; }
+#if defined(WOKWI_ENABLED)
+    /* A software-I2C page is long enough for SensorTask to become ready.
+     * The Wokwi port switches only at explicit Thread-mode yield points. */
+    osThreadYield();
+#endif
   }
   ++app_debug.oled_frames;
   return true;
@@ -302,9 +316,9 @@ void app_display_task(void)
   uint32_t last_oled_attempt = 0, reported_failure = 0;
   uint32_t reported_mutex = 0;
   snprintf(line, sizeof(line),
-           "BOOT PRESSURE PORT=%s RTOS=%luHz CPU=%luHz\r\n",
-           APP_RTOS_PORT_NAME, (unsigned long)osKernelGetTickFreq(),
-           (unsigned long)SystemCoreClock);
+           "BOOT PRESSURE PORT=%s I2C=%s RTOS=%luHz CPU=%luHz\r\n",
+           APP_RTOS_PORT_NAME, APP_I2C_TRANSPORT_NAME,
+           (unsigned long)osKernelGetTickFreq(), (unsigned long)SystemCoreClock);
   uart_line(line);
   if (osKernelGetTickFreq() != 1000U) { app_panic(APP_FAULT_KERNEL); }
   uint32_t start_rtos = now_ms(), start_hal = HAL_GetTick();

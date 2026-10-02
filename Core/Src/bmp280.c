@@ -1,5 +1,8 @@
 #include "bmp280.h"
 #include "app_config.h"
+#if defined(WOKWI_ENABLED)
+#include "wokwi_i2c.h"
+#endif
 
 #define BMP280_REG_ID       0xD0U
 #define BMP280_REG_CONFIG   0xF5U
@@ -9,8 +12,15 @@
 static bmp280_status_t save_result(bmp280_t *sensor, HAL_StatusTypeDef status)
 {
   sensor->last_status = status;
-  sensor->last_error = sensor->bus == BMP280_BUS_I2C
-      ? HAL_I2C_GetError(sensor->i2c) : HAL_SPI_GetError(sensor->spi);
+  if (sensor->bus == BMP280_BUS_I2C) {
+#if defined(WOKWI_ENABLED)
+    sensor->last_error = wokwi_i2c_last_error();
+#else
+    sensor->last_error = HAL_I2C_GetError(sensor->i2c);
+#endif
+  } else {
+    sensor->last_error = HAL_SPI_GetError(sensor->spi);
+  }
   return status == HAL_OK ? BMP280_OK : BMP280_ERROR_COMMUNICATION;
 }
 
@@ -18,9 +28,14 @@ static bmp280_status_t read_registers(bmp280_t *sensor, uint8_t reg,
                                       uint8_t *data, uint16_t length)
 {
   if (sensor->bus == BMP280_BUS_I2C) {
+#if defined(WOKWI_ENABLED)
+    return save_result(sensor, wokwi_i2c_mem_read(
+        (uint8_t)(sensor->i2c_address >> 1U), reg, data, length));
+#else
     return save_result(sensor, HAL_I2C_Mem_Read(sensor->i2c,
         sensor->i2c_address, reg, I2C_MEMADD_SIZE_8BIT, data, length,
         APP_IO_TIMEOUT_MS));
+#endif
   }
 
   uint8_t command = reg | 0x80U;
@@ -40,9 +55,14 @@ static bmp280_status_t read_registers(bmp280_t *sensor, uint8_t reg,
 static bmp280_status_t write_register(bmp280_t *sensor, uint8_t reg, uint8_t value)
 {
   if (sensor->bus == BMP280_BUS_I2C) {
+#if defined(WOKWI_ENABLED)
+    return save_result(sensor, wokwi_i2c_mem_write(
+        (uint8_t)(sensor->i2c_address >> 1U), reg, &value, 1U));
+#else
     return save_result(sensor, HAL_I2C_Mem_Write(sensor->i2c,
         sensor->i2c_address, reg, I2C_MEMADD_SIZE_8BIT, &value, 1U,
         APP_IO_TIMEOUT_MS));
+#endif
   }
   uint8_t command = reg & 0x7FU;
   HAL_GPIO_WritePin(sensor->cs_port, sensor->cs_pin, GPIO_PIN_RESET);

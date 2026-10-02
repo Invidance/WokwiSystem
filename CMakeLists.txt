@@ -54,6 +54,7 @@ if(WOKWI_SIMULATION)
         "portable/GCC/ARM_CM3/port\\.c$")
     set_property(TARGET FreeRTOS PROPERTY SOURCES "${FREERTOS_TARGET_SOURCES}")
     target_sources(FreeRTOS PRIVATE "${WOKWI_FREERTOS_PORT_DIR}/port.c")
+    target_sources(${CMAKE_PROJECT_NAME} PRIVATE Core/Src/wokwi_i2c.c)
     target_include_directories(stm32cubemx BEFORE INTERFACE
         "${WOKWI_FREERTOS_PORT_DIR}")
 endif()
