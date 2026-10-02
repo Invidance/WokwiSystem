@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ssd1306.h"
+#include "pressure_monitor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,9 +31,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#ifndef WOKWI_ENABLED
 #define WOKWI_ENABLED
-#endif
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +45,6 @@ I2C_HandleTypeDef hi2c1;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-SSD1306_t oled;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,7 +93,7 @@ int main(void)
   MX_I2C1_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  Prepare_OLED();
+  pressure_monitor_init(&hi2c1, &hspi1);
  
   /* USER CODE END 2 */
 
@@ -104,13 +101,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  HAL_Delay(1000);
-
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  HAL_Delay(1000);
+    pressure_monitor_update();
+    HAL_Delay(10U);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -269,33 +261,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void Prepare_OLED(void)
-{
-  if (SSD1306_Init(
-          &oled,
-          &hi2c1,
-          0x3C
-      ) != HAL_OK)
-  {
-      Error_Handler();
-  }
-
-   
-  SSD1306_Clear(&oled);
-
-  SSD1306_SetCursor(
-      &oled,
-      0,
-      0
-  );
-
-  SSD1306_WriteString(
-      &oled,
-      "Pressure Monitor"
-  );
-
-  SSD1306_UpdateScreen(&oled);
-}
 /* USER CODE END 4 */
 
 /**

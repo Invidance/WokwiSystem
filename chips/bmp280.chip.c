@@ -249,8 +249,13 @@ static void spi_done(
     chip->spi_read =
         (incoming & 0x80) != 0;
 
+    /*
+     * On BMP280 the command bit shares bit 7 with the register address:
+     * reading 0xD0 sends 0xD0, while writing 0xF4 sends 0x74. Restore
+     * the register-bank bit after decoding the read/write direction.
+     */
     chip->spi_reg =
-        incoming & 0x7F;
+        incoming | 0x80;
 
     chip->spi_first_byte = false;
 
