@@ -86,11 +86,29 @@ bool ssd1306_init(ssd1306_t *display,
   display->address = (uint16_t)address_7bit << 1;
   HAL_Delay(100U);
 
+  if (HAL_I2C_IsDeviceReady(display->i2c, display->address,
+                            3U, SSD1306_TIMEOUT_MS) != HAL_OK) {
+    return false;
+  }
+
+  /* Keep the sequence used by the display model that is known to work. */
   static const uint8_t init_commands[] = {
-    0xAE, 0x20, 0x02, 0xB0, 0xC8, 0x00, 0x10, 0x40,
-    0x81, 0x7F, 0xA1, 0xA6, 0xA8, 0x3F, 0xA4, 0xD3,
-    0x00, 0xD5, 0x80, 0xD9, 0xF1, 0xDA, 0x12, 0xDB,
-    0x40, 0x8D, 0x14, 0xAF
+    0xAE,             /* display off */
+    0x20, 0x00,       /* horizontal addressing mode */
+    0x40,             /* start line 0 */
+    0xA1,             /* segment remap */
+    0xC8,             /* COM scan direction */
+    0xA8, 0x3F,       /* multiplex ratio */
+    0xD3, 0x00,       /* display offset */
+    0xD5, 0x80,       /* display clock */
+    0xD9, 0xF1,       /* pre-charge period */
+    0xDA, 0x12,       /* COM pins configuration */
+    0x81, 0x7F,       /* contrast */
+    0xDB, 0x40,       /* VCOMH deselect */
+    0xA4,             /* display follows RAM */
+    0xA6,             /* normal display */
+    0x8D, 0x14,       /* charge pump */
+    0xAF              /* display on */
   };
   for (uint32_t i = 0U; i < sizeof(init_commands); ++i) {
     if (!send_command(display, init_commands[i])) {
