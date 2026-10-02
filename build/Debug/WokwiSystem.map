@@ -28,6 +28,8 @@ Archive member included to satisfy reference by file (symbol)
                               /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o (__libc_init_array)
 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-lock.o)
                               /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-findfp.o) (__retarget_lock_init_recursive)
+/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+                              CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj (memcpy)
 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-freer.o)
                               /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-reent.o) (_free_r)
 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-mallocr.o)
@@ -92,6 +94,8 @@ Discarded input sections
  .text          0x00000000        0x0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .data          0x00000000        0x0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .bss           0x00000000        0x0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
+ .rodata.AHBPrescTable
+                0x00000000       0x10 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .text.SystemCoreClockUpdate
                 0x00000000       0xe4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .group         0x00000000        0xc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
@@ -183,7 +187,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
  .debug_line    0x00000000      0x67c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
- .debug_str     0x00000000    0x7db3b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
+ .debug_str     0x00000000    0x7db2d cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
  .debug_frame   0x00000000       0x6c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c.obj
  .ARM.attributes
@@ -235,8 +239,6 @@ Discarded input sections
                 0x00000000       0x12 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_Flush_DR
                 0x00000000       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.HAL_I2C_Master_Transmit
-                0x00000000      0x1fc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_I2C_Master_Receive
                 0x00000000      0x4d8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_I2C_Slave_Transmit
@@ -271,8 +273,6 @@ Discarded input sections
                 0x00000000      0x2ac cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_I2C_Mem_Read_DMA
                 0x00000000      0x30c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.HAL_I2C_IsDeviceReady
-                0x00000000      0x25c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_I2C_Master_Seq_Transmit_IT
                 0x00000000      0x184 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_I2C_Master_Seq_Transmit_DMA
@@ -357,8 +357,6 @@ Discarded input sections
                 0x00000000       0xe8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_ITError
                 0x00000000      0x264 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_MasterRequestWrite
-                0x00000000      0x104 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_MasterRequestRead
                 0x00000000      0x19c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_RequestMemoryWrite
@@ -371,22 +369,12 @@ Discarded input sections
                 0x00000000       0x6e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_DMAAbort
                 0x00000000      0x150 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_WaitOnFlagUntilTimeout
-                0x00000000       0xf4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_WaitOnMasterAddressFlagUntilTimeout
-                0x00000000      0x140 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_WaitOnTXEFlagUntilTimeout
-                0x00000000       0x90 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_WaitOnBTFFlagUntilTimeout
-                0x00000000       0x90 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_WaitOnSTOPFlagUntilTimeout
                 0x00000000       0x88 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_WaitOnSTOPRequestThroughIT
                 0x00000000       0x64 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_WaitOnRXNEFlagUntilTimeout
                 0x00000000       0xba cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .text.I2C_IsAcknowledgeFailed
-                0x00000000       0x5c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.I2C_ConvertOtherXferOptions
                 0x00000000       0x34 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .debug_macro   0x00000000      0xacc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
@@ -581,12 +569,18 @@ Discarded input sections
  .bss           0x00000000        0x0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_DeInit
                 0x00000000      0x134 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .text.HAL_RCC_OscConfig
+                0x00000000      0x504 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .text.HAL_RCC_ClockConfig
+                0x00000000      0x1d4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_MCOConfig
                 0x00000000       0x70 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_EnableCSS
                 0x00000000       0x18 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_DisableCSS
                 0x00000000       0x18 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .text.HAL_RCC_GetSysClockFreq
+                0x00000000       0xa8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_GetPCLK2Freq
                 0x00000000       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_GetOscConfig
@@ -595,8 +589,14 @@ Discarded input sections
                 0x00000000       0x60 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_NMI_IRQHandler
                 0x00000000       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .text.RCC_Delay
+                0x00000000       0x3c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .text.HAL_RCC_CSSCallback
                 0x00000000        0xc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .rodata.aPLLMULFactorTable.1
+                0x00000000       0x10 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .rodata.aPredivFactorTable.0
+                0x00000000        0x2 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .debug_macro   0x00000000      0xacc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .debug_macro   0x00000000      0x21b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
  .debug_macro   0x00000000       0x2e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
@@ -726,7 +726,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .debug_line    0x00000000      0x854 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
- .debug_str     0x00000000    0x7dcb7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
+ .debug_str     0x00000000    0x7dca9 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .debug_frame   0x00000000       0x7c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c.obj
  .ARM.attributes
@@ -774,8 +774,6 @@ Discarded input sections
                 0x00000000      0x178 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .text.HAL_GPIO_ReadPin
                 0x00000000       0x2e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .text.HAL_GPIO_TogglePin
-                0x00000000       0x32 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .text.HAL_GPIO_LockPin
                 0x00000000       0x4e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .text.HAL_GPIO_EXTI_IRQHandler
@@ -927,7 +925,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .debug_line    0x00000000      0xcf4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
- .debug_str     0x00000000    0x7dee1 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
+ .debug_str     0x00000000    0x7ded3 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .debug_frame   0x00000000      0x1e8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c.obj
  .ARM.attributes
@@ -1168,7 +1166,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
  .debug_line    0x00000000      0x88e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
- .debug_str     0x00000000    0x7e06f cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
+ .debug_str     0x00000000    0x7e061 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
  .debug_frame   0x00000000      0x230 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c.obj
  .ARM.attributes
@@ -1285,7 +1283,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
  .debug_line    0x00000000      0x9a4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
- .debug_str     0x00000000    0x7de13 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
+ .debug_str     0x00000000    0x7de05 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
  .debug_frame   0x00000000      0x1e8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c.obj
  .ARM.attributes
@@ -1405,7 +1403,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
  .debug_line    0x00000000      0xab1 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
- .debug_str     0x00000000    0x7dfc1 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
+ .debug_str     0x00000000    0x7dfb3 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
  .debug_frame   0x00000000      0x240 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c.obj
  .ARM.attributes
@@ -1511,7 +1509,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x217 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
  .debug_macro   0x00000000       0x83 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
  .debug_line    0x00000000      0x934 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
- .debug_str     0x00000000    0x7dcba cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
+ .debug_str     0x00000000    0x7dcac cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
  .comment       0x00000000       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
  .debug_frame   0x00000000      0x154 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c.obj
  .ARM.attributes
@@ -1735,9 +1733,12 @@ Discarded input sections
  .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .text          0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .data          0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .bss           0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .text.SystemClock_Config
+                0x00000000       0x76 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000      0xacc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000      0x21b CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
@@ -1984,7 +1985,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6a CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000      0x1df CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
  .debug_line    0x00000000      0x31f CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
- .debug_str     0x00000000     0x7075 CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
+ .debug_str     0x00000000     0x7067 CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
  .comment       0x00000000       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
  .debug_frame   0x00000000       0x34 CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
  .ARM.attributes
@@ -2115,7 +2116,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000       0xce CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
  .debug_line    0x00000000      0x643 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
- .debug_str     0x00000000     0x9370 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
+ .debug_str     0x00000000     0x9362 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
  .comment       0x00000000       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
  .debug_frame   0x00000000      0x288 CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
  .ARM.attributes
@@ -2123,6 +2124,107 @@ Discarded input sections
  .text          0x00000000       0x14 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
  .data          0x00000000        0x0 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
  .bss           0x00000000        0x0 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .group         0x00000000        0xc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .text          0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .data          0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .bss           0x00000000        0x0 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0xacc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x21b CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x2e CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x22 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x22 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x8e CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x51 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x103 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x6a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x1df CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x1c CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x22 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0xbd CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0xd23 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000     0xe09e CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x6d CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000     0x34a2 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x190 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x5c CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x5bc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x289 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x1cb CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x114 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x1b2 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x27 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x136 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x1bc CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x34 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x3c CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x57 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x87 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x240 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x287 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x140 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x217 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x83 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x24 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x3c CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x34 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x364 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x16 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x4a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x34 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x10 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x58 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000      0x1de CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x00000000       0x3c CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
  .text          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-exit.o)
  .data          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-exit.o)
  .bss           0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-exit.o)
@@ -2413,6 +2515,9 @@ Discarded input sections
  .debug_frame   0x00000000       0xb0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-lock.o)
  .ARM.attributes
                 0x00000000       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-lock.o)
+ .text          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+ .data          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+ .bss           0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
  .text          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-freer.o)
  .data          0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-freer.o)
  .bss           0x00000000        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-freer.o)
@@ -2560,6 +2665,7 @@ LOAD CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
 LOAD CMakeFiles/WokwiSystem.dir/Core/Src/sysmem.c.obj
 LOAD CMakeFiles/WokwiSystem.dir/Core/Src/syscalls.c.obj
 LOAD CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+LOAD CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
 LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libm.a
 START GROUP
 LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/libgcc.a
@@ -2584,7 +2690,7 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
                 0x08000000                g_pfnVectors
                 0x0800010c                        . = ALIGN (0x4)
 
-.text           0x0800010c     0x16b8
+.text           0x0800010c     0x1c50
                 0x0800010c                        . = ALIGN (0x4)
  *(.text)
  .text          0x0800010c       0x40 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
@@ -2595,258 +2701,289 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
  .text.HAL_I2C_Init
                 0x08000158      0x288 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
                 0x08000158                HAL_I2C_Init
+ .text.HAL_I2C_Master_Transmit
+                0x080003e0      0x1fc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+                0x080003e0                HAL_I2C_Master_Transmit
+ .text.HAL_I2C_IsDeviceReady
+                0x080005dc      0x25c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+                0x080005dc                HAL_I2C_IsDeviceReady
+ .text.I2C_MasterRequestWrite
+                0x08000838      0x104 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .text.I2C_WaitOnFlagUntilTimeout
+                0x0800093c       0xf4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .text.I2C_WaitOnMasterAddressFlagUntilTimeout
+                0x08000a30      0x140 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .text.I2C_WaitOnTXEFlagUntilTimeout
+                0x08000b70       0x90 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .text.I2C_WaitOnBTFFlagUntilTimeout
+                0x08000c00       0x90 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .text.I2C_IsAcknowledgeFailed
+                0x08000c90       0x5c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .text.HAL_Init
-                0x080003e0       0x2c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
-                0x080003e0                HAL_Init
+                0x08000cec       0x2c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x08000cec                HAL_Init
  .text.HAL_InitTick
-                0x0800040c       0x60 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
-                0x0800040c                HAL_InitTick
+                0x08000d18       0x60 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x08000d18                HAL_InitTick
  .text.HAL_IncTick
-                0x0800046c       0x24 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
-                0x0800046c                HAL_IncTick
+                0x08000d78       0x24 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x08000d78                HAL_IncTick
  .text.HAL_GetTick
-                0x08000490       0x14 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
-                0x08000490                HAL_GetTick
+                0x08000d9c       0x14 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x08000d9c                HAL_GetTick
  .text.HAL_Delay
-                0x080004a4       0x48 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
-                0x080004a4                HAL_Delay
- .text.HAL_RCC_OscConfig
-                0x080004ec      0x504 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x080004ec                HAL_RCC_OscConfig
- .text.HAL_RCC_ClockConfig
-                0x080009f0      0x1d4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x080009f0                HAL_RCC_ClockConfig
- .text.HAL_RCC_GetSysClockFreq
-                0x08000bc4       0xa8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x08000bc4                HAL_RCC_GetSysClockFreq
+                0x08000db0       0x48 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+                0x08000db0                HAL_Delay
  .text.HAL_RCC_GetHCLKFreq
-                0x08000c6c       0x14 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x08000c6c                HAL_RCC_GetHCLKFreq
+                0x08000df8       0x14 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+                0x08000df8                HAL_RCC_GetHCLKFreq
  .text.HAL_RCC_GetPCLK1Freq
-                0x08000c80       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x08000c80                HAL_RCC_GetPCLK1Freq
- .text.RCC_Delay
-                0x08000ca8       0x3c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+                0x08000e0c       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+                0x08000e0c                HAL_RCC_GetPCLK1Freq
  .text.HAL_GPIO_Init
-                0x08000ce4      0x308 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
-                0x08000ce4                HAL_GPIO_Init
+                0x08000e34      0x308 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+                0x08000e34                HAL_GPIO_Init
  .text.HAL_GPIO_WritePin
-                0x08000fec       0x30 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
-                0x08000fec                HAL_GPIO_WritePin
+                0x0800113c       0x30 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+                0x0800113c                HAL_GPIO_WritePin
+ .text.HAL_GPIO_TogglePin
+                0x0800116c       0x32 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+                0x0800116c                HAL_GPIO_TogglePin
+ *fill*         0x0800119e        0x2 
  .text.__NVIC_SetPriorityGrouping
-                0x0800101c       0x48 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x080011a0       0x48 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .text.__NVIC_GetPriorityGrouping
-                0x08001064       0x1c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x080011e8       0x1c cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .text.__NVIC_SetPriority
-                0x08001080       0x54 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x08001204       0x54 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .text.NVIC_EncodePriority
-                0x080010d4       0x64 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x08001258       0x64 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .text.SysTick_Config
-                0x08001138       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x080012bc       0x44 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .text.HAL_NVIC_SetPriorityGrouping
-                0x0800117c       0x16 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
-                0x0800117c                HAL_NVIC_SetPriorityGrouping
+                0x08001300       0x16 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x08001300                HAL_NVIC_SetPriorityGrouping
  .text.HAL_NVIC_SetPriority
-                0x08001192       0x38 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
-                0x08001192                HAL_NVIC_SetPriority
+                0x08001316       0x38 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x08001316                HAL_NVIC_SetPriority
  .text.HAL_SYSTICK_Config
-                0x080011ca       0x18 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
-                0x080011ca                HAL_SYSTICK_Config
+                0x0800134e       0x18 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+                0x0800134e                HAL_SYSTICK_Config
  .text.HAL_SPI_Init
-                0x080011e2      0x108 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
-                0x080011e2                HAL_SPI_Init
- *fill*         0x080012ea        0x2 
- .text.main     0x080012ec       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
-                0x080012ec                main
- .text.SystemClock_Config
-                0x08001330       0x76 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
-                0x08001330                SystemClock_Config
- *fill*         0x080013a6        0x2 
+                0x08001366      0x108 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
+                0x08001366                HAL_SPI_Init
+ *fill*         0x0800146e        0x2 
+ .text.main     0x08001470       0x5c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x08001470                main
  .text.MX_I2C1_Init
-                0x080013a8       0x5c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x080014cc       0x5c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .text.MX_SPI1_Init
-                0x08001404       0x6c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x08001528       0x6c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .text.MX_GPIO_Init
-                0x08001470       0xc0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x08001594       0xc0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .text.Prepare_OLED
+                0x08001654       0x48 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x08001654                Prepare_OLED
  .text.Error_Handler
-                0x08001530        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
-                0x08001530                Error_Handler
+                0x0800169c        0xc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x0800169c                Error_Handler
  .text.NMI_Handler
-                0x0800153c        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x0800153c                NMI_Handler
+                0x080016a8        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016a8                NMI_Handler
  .text.HardFault_Handler
-                0x08001544        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x08001544                HardFault_Handler
+                0x080016b0        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016b0                HardFault_Handler
  .text.MemManage_Handler
-                0x0800154c        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x0800154c                MemManage_Handler
+                0x080016b8        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016b8                MemManage_Handler
  .text.BusFault_Handler
-                0x08001554        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x08001554                BusFault_Handler
+                0x080016c0        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016c0                BusFault_Handler
  .text.UsageFault_Handler
-                0x0800155c        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x0800155c                UsageFault_Handler
+                0x080016c8        0x8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016c8                UsageFault_Handler
  .text.SVC_Handler
-                0x08001564        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x08001564                SVC_Handler
+                0x080016d0        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016d0                SVC_Handler
  .text.DebugMon_Handler
-                0x08001570        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x08001570                DebugMon_Handler
+                0x080016dc        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016dc                DebugMon_Handler
  .text.PendSV_Handler
-                0x0800157c        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x0800157c                PendSV_Handler
+                0x080016e8        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016e8                PendSV_Handler
  .text.SysTick_Handler
-                0x08001588        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
-                0x08001588                SysTick_Handler
+                0x080016f4        0xc CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x080016f4                SysTick_Handler
  .text.HAL_MspInit
-                0x08001594       0x64 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
-                0x08001594                HAL_MspInit
+                0x08001700       0x64 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x08001700                HAL_MspInit
  .text.HAL_I2C_MspInit
-                0x080015f8       0x7c CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
-                0x080015f8                HAL_I2C_MspInit
+                0x08001764       0x7c CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x08001764                HAL_I2C_MspInit
  .text.HAL_SPI_MspInit
-                0x08001674       0x94 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
-                0x08001674                HAL_SPI_MspInit
+                0x080017e0       0x94 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x080017e0                HAL_SPI_MspInit
  .text.Reset_Handler
-                0x08001708       0x48 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
-                0x08001708                Reset_Handler
+                0x08001874       0x48 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+                0x08001874                Reset_Handler
  .text.Default_Handler
-                0x08001750        0x2 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
-                0x08001750                RTC_Alarm_IRQHandler
-                0x08001750                EXTI2_IRQHandler
-                0x08001750                TIM1_CC_IRQHandler
-                0x08001750                PVD_IRQHandler
-                0x08001750                EXTI3_IRQHandler
-                0x08001750                EXTI0_IRQHandler
-                0x08001750                I2C2_EV_IRQHandler
-                0x08001750                ADC1_2_IRQHandler
-                0x08001750                SPI1_IRQHandler
-                0x08001750                TAMPER_IRQHandler
-                0x08001750                DMA1_Channel4_IRQHandler
-                0x08001750                USART3_IRQHandler
-                0x08001750                RTC_IRQHandler
-                0x08001750                DMA1_Channel7_IRQHandler
-                0x08001750                CAN1_RX1_IRQHandler
-                0x08001750                TIM4_IRQHandler
-                0x08001750                I2C1_EV_IRQHandler
-                0x08001750                DMA1_Channel6_IRQHandler
-                0x08001750                TIM3_IRQHandler
-                0x08001750                RCC_IRQHandler
-                0x08001750                TIM1_TRG_COM_IRQHandler
-                0x08001750                DMA1_Channel1_IRQHandler
-                0x08001750                Default_Handler
-                0x08001750                EXTI15_10_IRQHandler
-                0x08001750                EXTI9_5_IRQHandler
-                0x08001750                SPI2_IRQHandler
-                0x08001750                DMA1_Channel5_IRQHandler
-                0x08001750                EXTI4_IRQHandler
-                0x08001750                USB_LP_CAN1_RX0_IRQHandler
-                0x08001750                USB_HP_CAN1_TX_IRQHandler
-                0x08001750                DMA1_Channel3_IRQHandler
-                0x08001750                TIM1_UP_IRQHandler
-                0x08001750                WWDG_IRQHandler
-                0x08001750                TIM2_IRQHandler
-                0x08001750                TIM1_BRK_IRQHandler
-                0x08001750                EXTI1_IRQHandler
-                0x08001750                USART2_IRQHandler
-                0x08001750                I2C2_ER_IRQHandler
-                0x08001750                DMA1_Channel2_IRQHandler
-                0x08001750                CAN1_SCE_IRQHandler
-                0x08001750                FLASH_IRQHandler
-                0x08001750                USART1_IRQHandler
-                0x08001750                I2C1_ER_IRQHandler
-                0x08001750                USBWakeUp_IRQHandler
- .text.memset   0x08001752       0x10 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
-                0x08001752                memset
- *fill*         0x08001762        0x2 
+                0x080018bc        0x2 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+                0x080018bc                RTC_Alarm_IRQHandler
+                0x080018bc                EXTI2_IRQHandler
+                0x080018bc                TIM1_CC_IRQHandler
+                0x080018bc                PVD_IRQHandler
+                0x080018bc                EXTI3_IRQHandler
+                0x080018bc                EXTI0_IRQHandler
+                0x080018bc                I2C2_EV_IRQHandler
+                0x080018bc                ADC1_2_IRQHandler
+                0x080018bc                SPI1_IRQHandler
+                0x080018bc                TAMPER_IRQHandler
+                0x080018bc                DMA1_Channel4_IRQHandler
+                0x080018bc                USART3_IRQHandler
+                0x080018bc                RTC_IRQHandler
+                0x080018bc                DMA1_Channel7_IRQHandler
+                0x080018bc                CAN1_RX1_IRQHandler
+                0x080018bc                TIM4_IRQHandler
+                0x080018bc                I2C1_EV_IRQHandler
+                0x080018bc                DMA1_Channel6_IRQHandler
+                0x080018bc                TIM3_IRQHandler
+                0x080018bc                RCC_IRQHandler
+                0x080018bc                TIM1_TRG_COM_IRQHandler
+                0x080018bc                DMA1_Channel1_IRQHandler
+                0x080018bc                Default_Handler
+                0x080018bc                EXTI15_10_IRQHandler
+                0x080018bc                EXTI9_5_IRQHandler
+                0x080018bc                SPI2_IRQHandler
+                0x080018bc                DMA1_Channel5_IRQHandler
+                0x080018bc                EXTI4_IRQHandler
+                0x080018bc                USB_LP_CAN1_RX0_IRQHandler
+                0x080018bc                USB_HP_CAN1_TX_IRQHandler
+                0x080018bc                DMA1_Channel3_IRQHandler
+                0x080018bc                TIM1_UP_IRQHandler
+                0x080018bc                WWDG_IRQHandler
+                0x080018bc                TIM2_IRQHandler
+                0x080018bc                TIM1_BRK_IRQHandler
+                0x080018bc                EXTI1_IRQHandler
+                0x080018bc                USART2_IRQHandler
+                0x080018bc                I2C2_ER_IRQHandler
+                0x080018bc                DMA1_Channel2_IRQHandler
+                0x080018bc                CAN1_SCE_IRQHandler
+                0x080018bc                FLASH_IRQHandler
+                0x080018bc                USART1_IRQHandler
+                0x080018bc                I2C1_ER_IRQHandler
+                0x080018bc                USBWakeUp_IRQHandler
+ .text.SSD1306_WriteCommand
+                0x080018be       0x3a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .text.SSD1306_Init
+                0x080018f8      0x134 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x080018f8                SSD1306_Init
+ .text.SSD1306_Clear
+                0x08001a2c       0x30 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001a2c                SSD1306_Clear
+ .text.SSD1306_DrawPixel
+                0x08001a5c       0x96 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001a5c                SSD1306_DrawPixel
+ .text.SSD1306_SetCursor
+                0x08001af2       0x2a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001af2                SSD1306_SetCursor
+ .text.SSD1306_WriteChar
+                0x08001b1c       0xc8 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001b1c                SSD1306_WriteChar
+ .text.SSD1306_WriteString
+                0x08001be4       0x52 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001be4                SSD1306_WriteString
+ .text.SSD1306_UpdateScreen
+                0x08001c36       0x9a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001c36                SSD1306_UpdateScreen
+ .text.memset   0x08001cd0       0x10 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+                0x08001cd0                memset
  .text.__libc_init_array
-                0x08001764       0x48 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
-                0x08001764                __libc_init_array
+                0x08001ce0       0x48 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+                0x08001ce0                __libc_init_array
+ .text.memcpy   0x08001d28       0x1c /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+                0x08001d28                memcpy
  *(.glue_7)
- .glue_7        0x080017ac        0x0 linker stubs
+ .glue_7        0x08001d44        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x080017ac        0x0 linker stubs
+ .glue_7t       0x08001d44        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x080017ac        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
+ .eh_frame      0x08001d44        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
  *(.init)
- .init          0x080017ac        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crti.o
-                0x080017ac                _init
- .init          0x080017b0        0x8 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
+ .init          0x08001d44        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crti.o
+                0x08001d44                _init
+ .init          0x08001d48        0x8 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
  *(.fini)
- .fini          0x080017b8        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crti.o
-                0x080017b8                _fini
- .fini          0x080017bc        0x8 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
-                0x080017c4                        . = ALIGN (0x4)
-                0x080017c4                        _etext = .
+ .fini          0x08001d50        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crti.o
+                0x08001d50                _fini
+ .fini          0x08001d54        0x8 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
+                0x08001d5c                        . = ALIGN (0x4)
+                0x08001d5c                        _etext = .
 
-.vfp11_veneer   0x080017c4        0x0
- .vfp11_veneer  0x080017c4        0x0 linker stubs
+.vfp11_veneer   0x08001d5c        0x0
+ .vfp11_veneer  0x08001d5c        0x0 linker stubs
 
-.v4_bx          0x080017c4        0x0
- .v4_bx         0x080017c4        0x0 linker stubs
+.v4_bx          0x08001d5c        0x0
+ .v4_bx         0x08001d5c        0x0 linker stubs
 
-.iplt           0x080017c4        0x0
- .iplt          0x080017c4        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
+.iplt           0x08001d5c        0x0
+ .iplt          0x08001d5c        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
 
-.rodata         0x080017c4       0x2c
-                0x080017c4                        . = ALIGN (0x4)
+.rodata         0x08001d5c      0x1f8
+                0x08001d5c                        . = ALIGN (0x4)
  *(.rodata)
+ .rodata        0x08001d5c       0x11 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  *(.rodata*)
- .rodata.AHBPrescTable
-                0x080017c4       0x10 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
-                0x080017c4                AHBPrescTable
+ *fill*         0x08001d6d        0x3 
  .rodata.APBPrescTable
-                0x080017d4        0x8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
-                0x080017d4                APBPrescTable
- .rodata.aPLLMULFactorTable.1
-                0x080017dc       0x10 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .rodata.aPredivFactorTable.0
-                0x080017ec        0x2 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
-                0x080017f0                        . = ALIGN (0x4)
- *fill*         0x080017ee        0x2 
+                0x08001d70        0x8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
+                0x08001d70                APBPrescTable
+ .rodata.font5x7
+                0x08001d78      0x1db CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+                0x08001f54                        . = ALIGN (0x4)
+ *fill*         0x08001f53        0x1 
 
-.ARM.extab      0x080017f0        0x0
-                0x080017f0                        . = ALIGN (0x4)
+.ARM.extab      0x08001f54        0x0
+                0x08001f54                        . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x080017f0                        . = ALIGN (0x4)
+                0x08001f54                        . = ALIGN (0x4)
 
-.ARM            0x080017f0        0x0
-                0x080017f0                        . = ALIGN (0x4)
-                0x080017f0                        __exidx_start = .
+.ARM            0x08001f54        0x0
+                0x08001f54                        . = ALIGN (0x4)
+                0x08001f54                        __exidx_start = .
  *(.ARM.exidx*)
-                0x080017f0                        __exidx_end = .
-                0x080017f0                        . = ALIGN (0x4)
+                0x08001f54                        __exidx_end = .
+                0x08001f54                        . = ALIGN (0x4)
 
-.preinit_array  0x080017f0        0x0
-                0x080017f0                        . = ALIGN (0x4)
-                0x080017f0                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x08001f54        0x0
+                0x08001f54                        . = ALIGN (0x4)
+                0x08001f54                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x080017f0                        PROVIDE (__preinit_array_end = .)
-                0x080017f0                        . = ALIGN (0x4)
+                0x08001f54                        PROVIDE (__preinit_array_end = .)
+                0x08001f54                        . = ALIGN (0x4)
 
-.init_array     0x080017f0        0x4
-                0x080017f0                        . = ALIGN (0x4)
-                0x080017f0                        PROVIDE (__init_array_start = .)
+.init_array     0x08001f54        0x4
+                0x08001f54                        . = ALIGN (0x4)
+                0x08001f54                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x080017f0        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
-                0x080017f4                        PROVIDE (__init_array_end = .)
-                0x080017f4                        . = ALIGN (0x4)
+ .init_array    0x08001f54        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
+                0x08001f58                        PROVIDE (__init_array_end = .)
+                0x08001f58                        . = ALIGN (0x4)
 
-.fini_array     0x080017f4        0x4
-                0x080017f4                        . = ALIGN (0x4)
+.fini_array     0x08001f58        0x4
+                0x08001f58                        . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x080017f4        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
+ .fini_array    0x08001f58        0x4 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x080017f8                        . = ALIGN (0x4)
-                0x080017f8                        _sidata = LOADADDR (.data)
+                0x08001f5c                        . = ALIGN (0x4)
+                0x08001f5c                        _sidata = LOADADDR (.data)
 
-.rel.dyn        0x080017f8        0x0
- .rel.iplt      0x080017f8        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
+.rel.dyn        0x08001f5c        0x0
+ .rel.iplt      0x08001f5c        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
 
-.data           0x20000000        0xc load address 0x080017f8
+.data           0x20000000        0xc load address 0x08001f5c
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -2865,10 +3002,10 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
                 0x2000000c                        . = ALIGN (0x4)
  *fill*         0x20000009        0x3 
 
-.igot.plt       0x2000000c        0x0 load address 0x08001804
+.igot.plt       0x2000000c        0x0 load address 0x08001f68
  .igot.plt      0x2000000c        0x0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
 
-.tdata          0x2000000c        0x0 load address 0x08001804
+.tdata          0x2000000c        0x0 load address 0x08001f68
  *(.tdata .tdata.* .gnu.linkonce.td.*)
                 0x2000000c                        . = ALIGN (0x4)
                 0x2000000c                        _edata = .
@@ -2885,7 +3022,7 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
                 [!provide]                        PROVIDE (__data_source_end = __tdata_source_end)
                 [!provide]                        PROVIDE (__data_source_size = (__data_source_end - __data_source))
 
-.tbss           0x2000000c        0x0 load address 0x08001804
+.tbss           0x2000000c        0x0 load address 0x08001f68
                 0x2000000c                        _sbss = .
                 0x2000000c                        __bss_start__ = _sbss
  *(.tbss .tbss.*)
@@ -2902,7 +3039,7 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
                 [!provide]                        PROVIDE (__arm32_tls_tcb_offset = MAX (0x8, __tls_align))
                 [!provide]                        PROVIDE (__arm64_tls_tcb_offset = MAX (0x10, __tls_align))
 
-.bss            0x2000000c       0xcc load address 0x08001804
+.bss            0x2000000c      0x4d4 load address 0x08001f68
  *(.bss)
  .bss           0x2000000c       0x1c /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtbegin.o
  *(.bss*)
@@ -2912,25 +3049,27 @@ LOAD /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/b
                 0x2000002c                hi2c1
  .bss.hspi1     0x20000080       0x58 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
                 0x20000080                hspi1
+ .bss.oled      0x200000d8      0x408 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x200000d8                oled
  *(COMMON)
-                0x200000d8                        . = ALIGN (0x4)
-                0x200000d8                        _ebss = .
-                0x200000d8                        __bss_end__ = _ebss
+                0x200004e0                        . = ALIGN (0x4)
+                0x200004e0                        _ebss = .
+                0x200004e0                        __bss_end__ = _ebss
                 [!provide]                        PROVIDE (__bss_end = .)
                 [!provide]                        PROVIDE (__non_tls_bss_start = ADDR (.bss))
                 [!provide]                        PROVIDE (__bss_start = __tbss_start)
                 [!provide]                        PROVIDE (__bss_size = (__bss_end - __bss_start))
 
 ._user_heap_stack
-                0x200000d8      0x600 load address 0x08001804
-                0x200000d8                        . = ALIGN (0x8)
+                0x200004e0      0x600 load address 0x08001f68
+                0x200004e0                        . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
-                0x200000d8                        PROVIDE (_end = .)
-                0x200002d8                        . = (. + _Min_Heap_Size)
- *fill*         0x200000d8      0x200 
-                0x200006d8                        . = (. + _Min_Stack_Size)
- *fill*         0x200002d8      0x400 
-                0x200006d8                        . = ALIGN (0x8)
+                0x200004e0                        PROVIDE (_end = .)
+                0x200006e0                        . = (. + _Min_Heap_Size)
+ *fill*         0x200004e0      0x200 
+                0x20000ae0                        . = (. + _Min_Stack_Size)
+ *fill*         0x200006e0      0x400 
+                0x20000ae0                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a:*(*)
@@ -2968,11 +3107,15 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000020c       0x21 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
  .ARM.attributes
-                0x0000022d       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+                0x0000022d       0x2d CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
  .ARM.attributes
-                0x0000025a       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+                0x0000025a       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
  .ARM.attributes
-                0x00000287       0x1d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
+                0x00000287       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .ARM.attributes
+                0x000002b4       0x2d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
+ .ARM.attributes
+                0x000002e1       0x1d /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/thumb/v7-m/nofp/crtn.o
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
@@ -2986,10 +3129,12 @@ LOAD linker stubs
  .comment       0x00000043       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .comment       0x00000043       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
  .comment       0x00000043       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .comment       0x00000043       0x44 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
  .comment       0x00000043       0x44 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
  .comment       0x00000043       0x44 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .comment       0x00000043       0x44 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_info     0x00000000     0x7551
+.debug_info     0x00000000     0x8130
  .debug_info    0x00000000      0x222 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_info    0x00000222     0x2524 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .debug_info    0x00002746      0x704 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
@@ -2997,14 +3142,16 @@ LOAD linker stubs
  .debug_info    0x0000361f      0x5ab cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_info    0x00003bca      0xa87 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_info    0x00004651     0x142d cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_info    0x00005a7e      0xc6f CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_info    0x000066ed      0x113 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_info    0x00006800      0xb36 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_info    0x00007336       0x30 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
- .debug_info    0x00007366       0xe0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
- .debug_info    0x00007446      0x10b /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_info    0x00005a7e      0xda2 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_info    0x00006820      0x113 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_info    0x00006933      0xb36 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_info    0x00007469       0x30 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+ .debug_info    0x00007499      0x98b CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_info    0x00007e24       0xe0 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_info    0x00007f04      0x10b /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_info    0x0000800f      0x121 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_abbrev   0x00000000     0x15c8
+.debug_abbrev   0x00000000     0x1967
  .debug_abbrev  0x00000000      0x13f cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_abbrev  0x0000013f      0x2a3 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .debug_abbrev  0x000003e2      0x201 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
@@ -3012,14 +3159,16 @@ LOAD linker stubs
  .debug_abbrev  0x00000896      0x1ca cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_abbrev  0x00000a60      0x2f8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_abbrev  0x00000d58      0x27a cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_abbrev  0x00000fd2      0x24c CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_abbrev  0x0000121e       0x73 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_abbrev  0x00001291      0x1ac CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_abbrev  0x0000143d       0x24 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
- .debug_abbrev  0x00001461       0x9e /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
- .debug_abbrev  0x000014ff       0xc9 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_abbrev  0x00000fd2      0x2b0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_abbrev  0x00001282       0x73 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_abbrev  0x000012f5      0x1ac CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_abbrev  0x000014a1       0x24 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+ .debug_abbrev  0x000014c5      0x27a CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_abbrev  0x0000173f       0x9e /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_abbrev  0x000017dd       0xc9 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_abbrev  0x000018a6       0xc1 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_aranges  0x00000000      0x8b8
+.debug_aranges  0x00000000      0x938
  .debug_aranges
                 0x00000000       0x28 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_aranges
@@ -3035,20 +3184,24 @@ LOAD linker stubs
  .debug_aranges
                 0x00000598      0x1d0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
  .debug_aranges
-                0x00000768       0x48 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x00000768       0x50 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .debug_aranges
-                0x000007b0       0x60 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x000007b8       0x60 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
  .debug_aranges
-                0x00000810       0x40 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x00000818       0x40 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
  .debug_aranges
-                0x00000850       0x28 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+                0x00000858       0x28 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
  .debug_aranges
-                0x00000878       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+                0x00000880       0x58 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
  .debug_aranges
-                0x00000898       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+                0x000008d8       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_aranges
+                0x000008f8       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_aranges
+                0x00000918       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
 .debug_rnglists
-                0x00000000      0x6ad
+                0x00000000      0x707
  .debug_rnglists
                 0x00000000       0x1a cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_rnglists
@@ -3064,19 +3217,23 @@ LOAD linker stubs
  .debug_rnglists
                 0x0000045f      0x16e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
  .debug_rnglists
-                0x000005cd       0x32 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+                0x000005cd       0x38 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
  .debug_rnglists
-                0x000005ff       0x43 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+                0x00000605       0x43 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
  .debug_rnglists
-                0x00000642       0x2c CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+                0x00000648       0x2c CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
  .debug_rnglists
-                0x0000066e       0x19 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+                0x00000674       0x19 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
  .debug_rnglists
-                0x00000687       0x13 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+                0x0000068d       0x41 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
  .debug_rnglists
-                0x0000069a       0x13 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+                0x000006ce       0x13 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_rnglists
+                0x000006e1       0x13 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_rnglists
+                0x000006f4       0x13 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_macro    0x00000000    0x16228
+.debug_macro    0x00000000    0x1658b
  .debug_macro   0x00000000      0x198 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_macro   0x00000198      0xacc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_macro   0x00000c64       0x2e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
@@ -3120,11 +3277,17 @@ LOAD linker stubs
  .debug_macro   0x000157fd      0x203 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_macro   0x00015a00      0x198 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_macro   0x00015b98      0x1a0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_macro   0x00015d38      0x1a2 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_macro   0x00015eda      0x1ac CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_macro   0x00016086      0x1a2 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_macro   0x00015d38      0x1b1 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_macro   0x00015ee9       0x28 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_macro   0x00015f11      0x1ac CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_macro   0x000160bd      0x1a2 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_macro   0x0001625f      0x266 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x000164c5       0x22 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x000164e7       0x74 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x0001655b       0x10 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_macro   0x0001656b       0x20 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
 
-.debug_line     0x00000000     0xa03d
+.debug_line     0x00000000     0xab1e
  .debug_line    0x00000000      0x6b9 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_line    0x000006b9     0x3ae7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .debug_line    0x000041a0      0x8ed cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
@@ -3132,30 +3295,34 @@ LOAD linker stubs
  .debug_line    0x00005830      0x944 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_line    0x00006174      0xab4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_line    0x00006c28     0x1b81 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_line    0x000087a9      0x774 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_line    0x00008f1d      0x6e9 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_line    0x00009606      0x6d8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_line    0x00009cde       0x78 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
- .debug_line    0x00009d56      0x17e /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
- .debug_line    0x00009ed4      0x169 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_line    0x000087a9      0x7af CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_line    0x00008f58      0x6e9 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_line    0x00009641      0x6d8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_line    0x00009d19       0x78 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+ .debug_line    0x00009d91      0x89f CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_line    0x0000a630      0x17e /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_line    0x0000a7ae      0x169 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_line    0x0000a917      0x207 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_str      0x00000000    0x803cd
- .debug_str     0x00000000    0x803cd cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
-                              0x7db38 (size before relaxing)
- .debug_str     0x000803cd    0x7ebff cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
- .debug_str     0x000803cd    0x7e26b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
- .debug_str     0x000803cd    0x7df67 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
- .debug_str     0x000803cd    0x7debe cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
- .debug_str     0x000803cd    0x7e1b7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
- .debug_str     0x000803cd    0x7e45e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_str     0x000803cd    0x7e399 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_str     0x000803cd    0x7db22 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_str     0x000803cd    0x7e200 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_str     0x000803cd       0x78 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
- .debug_str     0x000803cd      0x209 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
- .debug_str     0x000803cd      0x26a /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+.debug_str      0x00000000    0x83129
+ .debug_str     0x00000000    0x83129 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
+                              0x7db2a (size before relaxing)
+ .debug_str     0x00083129    0x7ebf1 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
+ .debug_str     0x00083129    0x7e25d cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
+ .debug_str     0x00083129    0x7df59 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c.obj
+ .debug_str     0x00083129    0x7deb0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
+ .debug_str     0x00083129    0x7e1a9 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
+ .debug_str     0x00083129    0x7e450 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
+ .debug_str     0x00083129    0x7e4bc CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_str     0x00083129    0x7db14 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_str     0x00083129    0x7e1f2 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_str     0x00083129       0x78 CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
+ .debug_str     0x00083129    0x80c1f CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_str     0x00083129      0x209 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_str     0x00083129      0x26a /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_str     0x00083129      0x227 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
-.debug_frame    0x00000000     0x20e8
+.debug_frame    0x00000000     0x2260
  .debug_frame   0x00000000       0x50 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj
  .debug_frame   0x00000050      0xbf4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c.obj
  .debug_frame   0x00000c44      0x2e4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c.obj
@@ -3163,11 +3330,13 @@ LOAD linker stubs
  .debug_frame   0x00001120      0x130 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c.obj
  .debug_frame   0x00001250      0x3f0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c.obj
  .debug_frame   0x00001640      0x7dc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c.obj
- .debug_frame   0x00001e1c       0xc4 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
- .debug_frame   0x00001ee0       0xf8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
- .debug_frame   0x00001fd8       0xc4 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
- .debug_frame   0x0000209c       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
- .debug_frame   0x000020bc       0x2c /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_frame   0x00001e1c       0xe0 CMakeFiles/WokwiSystem.dir/Core/Src/main.c.obj
+ .debug_frame   0x00001efc       0xf8 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_it.c.obj
+ .debug_frame   0x00001ff4       0xc4 CMakeFiles/WokwiSystem.dir/Core/Src/stm32f1xx_hal_msp.c.obj
+ .debug_frame   0x000020b8      0x134 CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj
+ .debug_frame   0x000021ec       0x20 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
+ .debug_frame   0x0000220c       0x2c /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_frame   0x00002238       0x28 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)
 
 .debug_line_str
                 0x00000000       0x5c
@@ -3175,8 +3344,10 @@ LOAD linker stubs
                 0x00000000       0x5c CMakeFiles/WokwiSystem.dir/startup_stm32f103xb.s.obj
 
 .debug_loclists
-                0x00000000       0x7f
+                0x00000000      0x12c
  .debug_loclists
                 0x00000000       0x3b /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memset.o)
  .debug_loclists
                 0x0000003b       0x44 /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-init.o)
+ .debug_loclists
+                0x0000007f       0xad /home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libg_nano.a(libc_a-memcpy-stub.o)

@@ -37,6 +37,12 @@
 },
 {
   "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
+  "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/ssd1306.c",
+  "file": "/home/maks/stm32/WokwiSystem/Core/Src/ssd1306.c",
+  "output": "/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/WokwiSystem.dir/Core/Src/ssd1306.c.obj"
+},
+{
+  "directory": "/home/maks/stm32/WokwiSystem/build/Debug",
   "command": "/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc -DDEBUG -DSTM32F103xB -DUSE_HAL_DRIVER -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Core/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I/home/maks/stm32/WokwiSystem/cmake/stm32cubemx/../../Drivers/CMSIS/Include  -mcpu=cortex-m3  -Wall -fdata-sections -ffunction-sections -fstack-usage -O0 -g3 -std=gnu11 -o cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj -c /home/maks/stm32/WokwiSystem/Core/Src/system_stm32f1xx.c",
   "file": "/home/maks/stm32/WokwiSystem/Core/Src/system_stm32f1xx.c",
   "output": "/home/maks/stm32/WokwiSystem/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32f1xx.c.obj"
