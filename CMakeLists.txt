@@ -34,19 +34,28 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
+option(WOKWI_SIMULATION "Use the STM32F103 Wokwi FreeRTOS port" ON)
+
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
 # Shared with the HAL and FreeRTOS object libraries, not just main.c.
-option(WOKWI_SIMULATION "Enable STM32F103 Wokwi compatibility workarounds" ON)
 if(WOKWI_SIMULATION)
-    target_compile_definitions(stm32cubemx INTERFACE
-        WOKWI_ENABLED=1
-        # Make SystemInit() program SCB->VTOR explicitly.  The STM32F103
-        # normally boots with Flash aliased at address zero, but the Wokwi
-        # model did not dispatch SVC through that alias during RTOS startup.
-        USER_VECT_TAB_ADDRESS=1
-    )
+    target_compile_definitions(stm32cubemx INTERFACE WOKWI_ENABLED=1)
+
+    # Wokwi's STM32F103 model executes SVC as a normal instruction and does
+    # not complete the standard Cortex-M exception-return task startup.  Keep
+    # the vendor ARM_CM3 port untouched and replace only the port layer in the
+    # simulator build.
+    set(WOKWI_FREERTOS_PORT_DIR
+        "${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3_WOKWI")
+    get_target_property(FREERTOS_TARGET_SOURCES FreeRTOS SOURCES)
+    list(FILTER FREERTOS_TARGET_SOURCES EXCLUDE REGEX
+        "portable/GCC/ARM_CM3/port\\.c$")
+    set_property(TARGET FreeRTOS PROPERTY SOURCES "${FREERTOS_TARGET_SOURCES}")
+    target_sources(FreeRTOS PRIVATE "${WOKWI_FREERTOS_PORT_DIR}/port.c")
+    target_include_directories(stm32cubemx BEFORE INTERFACE
+        "${WOKWI_FREERTOS_PORT_DIR}")
 endif()
 
 # Link directories setup

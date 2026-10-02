@@ -93,34 +93,66 @@ UART уже з’єднаний із Serial Monitor. Збережено наяв
 у симуляції пропускається SystemClock_Config, початковий HSI/SystemCoreClock —
 8 МГц. Це поточне налаштування, а не підтвердження точності часу в симуляторі.
 
-### Обхід перевірки NVIC у Wokwi
+### Окремий FreeRTOS port для Wokwi
 
-Під час запуску FreeRTOS на цій моделі зафіксовано зупинку на перевірці
-`configPRIO_BITS`: `ulMaxPRIGROUPValue == 7`, тобто апаратна проба визначила
-0 бітів пріоритету замість 4. Це відбувається до запуску SysTick і першої задачі.
+У Wokwi STM32F103 підтверджено дві несумісності штатного Cortex-M3 port:
+проба NVIC повертає нуль, а інструкція `svc 0` продовжує виконання без входу
+в `SVC_Handler`. Через це стандартний запуск першої задачі не працює.
 
-Опція CMake `WOKWI_SIMULATION=ON` (типово) визначає `WOKWI_ENABLED` для всіх
-цілей, включно з бібліотекою FreeRTOS. У `portable/GCC/ARM_CM3/port.c` додано
-локальний обхід: тільки при нульовому результаті проби NVIC підставляється
-маска STM32F103 `0xF0`. `configPRIO_BITS` лишається 4, поріг BASEPRI — `0x50`,
-а `configASSERT` не вимикається. Ненульовий результат проходить штатну перевірку.
+`WOKWI_SIMULATION=ON` (типово) підміняє лише portability layer на
+`portable/GCC/ARM_CM3_WOKWI`. FreeRTOS kernel, CMSIS-RTOS2, задачі, черги та
+м'ютекс не змінені. Цей port:
 
-Це усуває виявлену причину assert, але не доводить коректність моделювання
-пріоритетів/маскування переривань або роботу всього застосунку. Після перезбірки
-перевірити досягнення `app_sensor_task` і зростання `xTickCount` у симуляції.
-WASM для цієї зміни перезбирати не потрібно.
+- запускає першу задачу в Thread mode на PSP без SVC/EXC_RETURN;
+- зберігає та відновлює контекст при блокуванні або `taskYIELD()` без PendSV;
+- використовує SysTick 1000 Гц тільки для просування часу FreeRTOS;
+- залишає CubeMX TIM2 окремим 1-мс джерелом часу HAL;
+- захищає критичні секції через PRIMASK, не покладаючись на відсутні в моделі
+  біти пріоритету NVIC/BASEPRI;
+- ніколи не перемикає PSP усередині ISR: ISR лише ставить запит на yield.
 
-`-DWOKWI_SIMULATION=OFF` залишає оригінальну перевірку порту й увімкнений
-SystemClock_Config; це не додає сумісності драйвера датчика з фізичним BMP280.
-Після оновлення/перегенерації middleware перевірити, що обхід у `port.c`
-не перезаписаний: він не належить до CubeMX USER CODE-блоків.
+Усі прикладні задачі цього проєкту регулярно блокуються на delay/queue, що є
+обов'язковою умовою такого симуляційного port. Нескінченна прикладна петля без
+блокування або yield затримає інші задачі до наступної точки перемикання.
 
-Для Wokwi CMake також визначає `USER_VECT_TAB_ADDRESS`: `SystemInit()` явно
-записує `SCB->VTOR = 0x08000000`. Це усуває залежність запуску SVC/PendSV
-від Flash-аліаса за адресою нуль і не вмикається у збірці з
-`-DWOKWI_SIMULATION=OFF`. У CubeMX окремо вмикати SVC не потрібно;
-його запис у таблиці векторів створюється startup-файлом FreeRTOS. Фактичний
-перехід у задачі після цієї зміни потрібно підтвердити в Wokwi.
+Для Wokwi:
+
+```bash
+cmake --fresh --preset Debug -DWOKWI_SIMULATION=ON
+cmake --build --preset Debug
+```
+
+Для фізичного STM32F103:
+
+```bash
+cmake --fresh --preset Debug -DWOKWI_SIMULATION=OFF
+cmake --build --preset Debug
+```
+
+У фізичній збірці використовується незмінений штатний `ARM_CM3/port.c` із
+SVC/PendSV. `WOKWI_ENABLED` також вимкнений, тому виконується
+`SystemClock_Config`. WASM через цю зміну перезбирати не потрібно.
+
+Порт має лічильники `wokwi_port_tick_count`, `wokwi_port_switch_count` і прапор
+`wokwi_port_yield_pending`, доступні в GDB. Після старту перші два повинні рости.
+Реальну роботу задач, UART та OLED все одно потрібно підтвердити у Wokwi.
+
+Мінімальна перевірка після підключення GDB:
+
+```gdb
+break app_sensor_task
+break app_processing_task
+break app_display_task
+continue
+print wokwi_port_tick_count
+print wokwi_port_switch_count
+print xTickCount
+```
+
+Зупинка на кожній із трьох задач підтверджує запуск планувальника. Breakpoint на
+`SVC_Handler` або `PendSV_Handler` у цій збірці спрацьовувати не повинен — ці
+винятки навмисно виключені з Wokwi-port. У UART очікується префікс
+`BOOT PRESSURE PORT=WOKWI-DIRECT`.
 
 CubeMX-конфігурація містить перевірки heap/stack, 8192 байти RTOS heap та
 наявні розміри черг/стеків. При регенерації ввімкнути Keep User Code.

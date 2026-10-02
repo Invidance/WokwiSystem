@@ -22,6 +22,12 @@ volatile AppFault app_fault;
 const char * volatile app_fault_task;
 static ssd1306_t oled; /* DisplayTask is the sole owner. */
 
+#if defined(WOKWI_ENABLED)
+#define APP_RTOS_PORT_NAME "WOKWI-DIRECT"
+#else
+#define APP_RTOS_PORT_NAME "ARM-CM3"
+#endif
+
 _Noreturn void app_panic(AppFault fault)
 {
   app_fault = fault;
@@ -295,8 +301,10 @@ void app_display_task(void)
   bool have_log = false, oled_ok = false, oled_attempted = false;
   uint32_t last_oled_attempt = 0, reported_failure = 0;
   uint32_t reported_mutex = 0;
-  snprintf(line, sizeof(line), "BOOT WOKWI PRESSURE RTOS=%luHz CPU=%luHz\r\n",
-           (unsigned long)osKernelGetTickFreq(), (unsigned long)SystemCoreClock);
+  snprintf(line, sizeof(line),
+           "BOOT PRESSURE PORT=%s RTOS=%luHz CPU=%luHz\r\n",
+           APP_RTOS_PORT_NAME, (unsigned long)osKernelGetTickFreq(),
+           (unsigned long)SystemCoreClock);
   uart_line(line);
   if (osKernelGetTickFreq() != 1000U) { app_panic(APP_FAULT_KERNEL); }
   uint32_t start_rtos = now_ms(), start_hal = HAL_GetTick();
