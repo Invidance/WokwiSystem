@@ -114,11 +114,6 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //Enable/Disable output of build database during the build.
 CMAKE_EXPORT_BUILD_DATABASE:BOOL=
 
-//Enable output of a compile_commands.json file listing the exact
-// compiler invocation for each translation unit. Implemented by
-// the Makefile and Ninja generators; ignored elsewhere.
-CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
-
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/maks/stm32/WokwiSystem/build/Debug/CMakeFiles/pkgRedirects
 
@@ -228,16 +223,17 @@ CMAKE_STRIP:FILEPATH=/home/maks/.local/share/stm32cube/bundles/gnu-tools-for-stm
 //Path to a program.
 CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 
-//Path to a CMake toolchain file, read early in the CMake run,
-// that specifies the compilers, toolchain utilities, and target-platform
-// information used when cross-compiling.
-CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=/home/maks/stm32/WokwiSystem/cmake/gcc-arm-none-eabi.cmake
+//The CMake toolchain file
+CMAKE_TOOLCHAIN_FILE:FILEPATH=/home/maks/stm32/WokwiSystem/cmake/gcc-arm-none-eabi.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Use the STM32F103 Wokwi FreeRTOS port
+WOKWI_SIMULATION:BOOL=ON
 
 //Value Computed by CMake
 WokwiSystem_BINARY_DIR:STATIC=/home/maks/stm32/WokwiSystem/build/Debug

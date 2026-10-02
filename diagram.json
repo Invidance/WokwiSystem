@@ -72,16 +72,16 @@
     {
       "type": "wokwi-resistor",
       "id": "rScl",
-      "top": 315,
-      "left": 245,
+      "top": 415,
+      "left": 255,
       "attrs": { "value": "4.7k" }
     },
 
     {
       "type": "wokwi-resistor",
       "id": "rSda",
-      "top": 315,
-      "left": 285,
+      "top": 265,
+      "left": 255,
       "attrs": { "value": "4.7k" }
     }
     
@@ -94,10 +94,10 @@
     ["stm32:GND.1", "bmpI2C:GND", "black", ["h-40", "*", "h-40"]],
     ["stm32:B8",    "bmpI2C:SCL", "green", ["h-50", "*", "h-50"]],
     ["stm32:B9",    "bmpI2C:SDA", "blue",  ["h-60", "*", "h-60"]],
-    ["stm32:3V3.1", "rScl:1", "red", []],
-    ["rScl:2", "stm32:B8", "green", []],
-    ["stm32:3V3.1", "rSda:1", "red", []],
-    ["rSda:2", "stm32:B9", "blue", []],
+    ["stm32:3V3.1", "rScl:1", "red", ["h-10",  "*", "h-10"]],
+    ["rScl:2", "stm32:B8", "green", ["h-30",  "*", "h-50"]],
+    ["stm32:3V3.1", "rSda:1", "red", ["h-30",  "*", "h-30"]],
+    ["rSda:2", "stm32:B9", "blue", ["h-30",  "*", "h-30"]],
 
     ["stm32:3V3.2", "bmpSPI:VCC", "red",    ["h40",  "*", "h-30"]],
     ["stm32:GND.2", "bmpSPI:GND", "black",  ["h50",  "*", "h-40"]],
