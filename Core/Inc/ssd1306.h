@@ -13,6 +13,8 @@ typedef struct {
   uint16_t address;
   uint8_t buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8U];
   bool initialized;
+  HAL_StatusTypeDef last_status;
+  uint32_t last_i2c_error;
 } ssd1306_t;
 
 bool ssd1306_init(ssd1306_t *display,
