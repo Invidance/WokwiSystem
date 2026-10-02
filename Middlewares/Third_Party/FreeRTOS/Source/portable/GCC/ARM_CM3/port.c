@@ -281,6 +281,21 @@ BaseType_t xPortStartScheduler( void )
 		/* Read the value back to see how many bits stuck. */
 		ucMaxPriorityValue = *pucFirstUserPriorityRegister;
 
+		#if defined(WOKWI_ENABLED)
+		{
+			/* The observed Wokwi STM32F103 model reads this probe back as 0,
+			so it reports no implemented priority bits and cannot pass startup.
+			Only for that simulator result, use STM32F103's four high bits.
+			Keep BASEPRI thresholds and all subsequent assertions unchanged.
+			This does not verify the simulator's interrupt masking behaviour. */
+			if( ucMaxPriorityValue == 0U )
+			{
+				configASSERT( configPRIO_BITS == 4 );
+				ucMaxPriorityValue = ( uint8_t ) 0xf0U;
+			}
+		}
+		#endif
+
 		/* Use the same mask on the maximum system call priority. */
 		ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
 

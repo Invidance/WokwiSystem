@@ -37,6 +37,12 @@ add_executable(${CMAKE_PROJECT_NAME})
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
+# Shared with the HAL and FreeRTOS object libraries, not just main.c.
+option(WOKWI_SIMULATION "Enable STM32F103 Wokwi compatibility workarounds" ON)
+if(WOKWI_SIMULATION)
+    target_compile_definitions(stm32cubemx INTERFACE WOKWI_ENABLED=1)
+endif()
+
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths

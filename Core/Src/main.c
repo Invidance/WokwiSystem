@@ -33,7 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define WOKWI_ENABLED
+/* WOKWI_ENABLED comes from CMake so the FreeRTOS port sees the same setting. */
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
