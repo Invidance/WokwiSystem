@@ -3,7 +3,10 @@
 #define SOFT_I2C_PORT       GPIOB
 #define SOFT_I2C_SCL        GPIO_PIN_8
 #define SOFT_I2C_SDA        GPIO_PIN_9
-#define SOFT_I2C_STRETCH_MAX 200U
+#define SOFT_I2C_SDA_CR_SHIFT 4U
+#define SOFT_I2C_SDA_CR_MASK  (0x0FU << SOFT_I2C_SDA_CR_SHIFT)
+#define SOFT_I2C_SDA_OUTPUT   (0x03U << SOFT_I2C_SDA_CR_SHIFT)
+#define SOFT_I2C_SDA_INPUT_PU (0x08U << SOFT_I2C_SDA_CR_SHIFT)
 
 static bool configured;
 static uint32_t last_error;
@@ -19,22 +22,28 @@ static inline void half_period(void)
       ::: "r3", "cc", "memory");
 }
 
-static inline void scl_low(void)     { SOFT_I2C_PORT->BRR = SOFT_I2C_SCL; }
-static inline void scl_release(void) { SOFT_I2C_PORT->BSRR = SOFT_I2C_SCL; }
-static inline void sda_low(void)     { SOFT_I2C_PORT->BRR = SOFT_I2C_SDA; }
-static inline void sda_release(void) { SOFT_I2C_PORT->BSRR = SOFT_I2C_SDA; }
-static inline bool scl_is_high(void) { return (SOFT_I2C_PORT->IDR & SOFT_I2C_SCL) != 0U; }
-static inline bool sda_is_high(void) { return (SOFT_I2C_PORT->IDR & SOFT_I2C_SDA) != 0U; }
+static inline void scl_low(void)  { SOFT_I2C_PORT->BRR = SOFT_I2C_SCL; }
+static inline void scl_high(void) { SOFT_I2C_PORT->BSRR = SOFT_I2C_SCL; }
 
-static bool wait_scl_high(void)
+/* Wokwi's Blue Pill model does not reliably report a released AF/open-drain
+ * pin as high. Emulate open drain on SDA explicitly: output-low for zero,
+ * input with pull-up for one/read/ACK. SCL is push-pull; simulated devices do
+ * not use clock stretching. */
+static inline void sda_low(void)
 {
-  for (uint32_t i = 0U; i < SOFT_I2C_STRETCH_MAX; ++i) {
-    if (scl_is_high()) { return true; }
-    half_period();
-  }
-  last_error = HAL_I2C_ERROR_TIMEOUT;
-  return false;
+  SOFT_I2C_PORT->BRR = SOFT_I2C_SDA;
+  MODIFY_REG(SOFT_I2C_PORT->CRH, SOFT_I2C_SDA_CR_MASK,
+             SOFT_I2C_SDA_OUTPUT);
 }
+
+static inline void sda_release(void)
+{
+  SOFT_I2C_PORT->BSRR = SOFT_I2C_SDA;
+  MODIFY_REG(SOFT_I2C_PORT->CRH, SOFT_I2C_SDA_CR_MASK,
+             SOFT_I2C_SDA_INPUT_PU);
+}
+
+static inline bool sda_is_high(void) { return (SOFT_I2C_PORT->IDR & SOFT_I2C_SDA) != 0U; }
 
 static void configure_pins(void)
 {
@@ -44,15 +53,15 @@ static void configure_pins(void)
 
   /* PB8/PB9 are plain GPIO in the Wokwi build.  Do not use the simulated
    * I2C1 pins PB6/PB7: that peripheral model may keep SCL low. */
-  scl_release();
+  scl_high();
   sda_release();
 
   GPIO_InitTypeDef gpio = {0};
-  gpio.Pin = SOFT_I2C_SCL | SOFT_I2C_SDA;
-  gpio.Mode = GPIO_MODE_OUTPUT_OD;
+  gpio.Pin = SOFT_I2C_SCL;
+  gpio.Mode = GPIO_MODE_OUTPUT_PP;
   gpio.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(SOFT_I2C_PORT, &gpio);
-  scl_release();
+  scl_high();
   sda_release();
   configured = true;
   half_period();
@@ -61,12 +70,7 @@ static void configure_pins(void)
 static bool start_condition(void)
 {
   sda_release();
-  scl_release();
-  if (!wait_scl_high()) { return false; }
-  if (!sda_is_high()) {
-    last_error = HAL_I2C_ERROR_TIMEOUT;
-    return false;
-  }
+  scl_high();
   half_period();
   sda_low();
   half_period();
@@ -79,8 +83,7 @@ static void stop_condition(void)
   scl_low();
   sda_low();
   half_period();
-  scl_release();
-  (void)wait_scl_high();
+  scl_high();
   half_period();
   sda_release();
   half_period();
@@ -92,16 +95,14 @@ static bool write_byte(uint8_t value)
     scl_low();
     if ((value & mask) != 0U) { sda_release(); } else { sda_low(); }
     half_period();
-    scl_release();
-    if (!wait_scl_high()) { return false; }
+    scl_high();
     half_period();
   }
 
   scl_low();
   sda_release();
   half_period();
-  scl_release();
-  if (!wait_scl_high()) { return false; }
+  scl_high();
   bool acknowledged = !sda_is_high();
   half_period();
   scl_low();
@@ -116,8 +117,7 @@ static bool read_byte(uint8_t *value, bool acknowledge)
   for (uint8_t i = 0U; i < 8U; ++i) {
     scl_low();
     half_period();
-    scl_release();
-    if (!wait_scl_high()) { return false; }
+    scl_high();
     result = (uint8_t)((result << 1U) | (sda_is_high() ? 1U : 0U));
     half_period();
   }
@@ -125,8 +125,7 @@ static bool read_byte(uint8_t *value, bool acknowledge)
   scl_low();
   if (acknowledge) { sda_low(); } else { sda_release(); }
   half_period();
-  scl_release();
-  if (!wait_scl_high()) { return false; }
+  scl_high();
   half_period();
   scl_low();
   sda_release();
@@ -139,18 +138,13 @@ HAL_StatusTypeDef wokwi_i2c_recover(void)
   configure_pins();
   last_error = HAL_I2C_ERROR_NONE;
   sda_release();
-  for (uint8_t i = 0U; i < 9U && !sda_is_high(); ++i) {
+  for (uint8_t i = 0U; i < 9U; ++i) {
     scl_low();
     half_period();
-    scl_release();
-    if (!wait_scl_high()) { return HAL_TIMEOUT; }
+    scl_high();
     half_period();
   }
   stop_condition();
-  if (!scl_is_high() || !sda_is_high()) {
-    last_error = HAL_I2C_ERROR_TIMEOUT;
-    return HAL_TIMEOUT;
-  }
   return HAL_OK;
 }
 
