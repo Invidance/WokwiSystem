@@ -117,15 +117,7 @@ bool ssd1306_init(ssd1306_t *display,
   display->i2c = i2c;
   display->address = (uint16_t)address_7bit << 1;
 
-#if defined(WOKWI_ENABLED)
-  HAL_StatusTypeDef status = wokwi_i2c_probe((uint8_t)(display->address >> 1U));
-#else
-  HAL_StatusTypeDef status = HAL_I2C_IsDeviceReady(
-      display->i2c, display->address, 1U, APP_IO_TIMEOUT_MS);
-#endif
-  if (!save_status(display, status, SSD1306_PROBE, 0U, 0U)) {
-    return false;
-  }
+  if (!ssd1306_probe(display)) { return false; }
 
   /* Horizontal addressing is also used when writing the framebuffer. */
   static const uint8_t init_commands[] = {
@@ -153,47 +145,56 @@ bool ssd1306_init(ssd1306_t *display,
   }
   ssd1306_clear(display);
   display->initialized = true;
-  /* The monitor draws and transmits the first frame after initialization. */
   return true;
+}
+
+bool ssd1306_probe(ssd1306_t *display)
+{
+#if defined(WOKWI_ENABLED)
+  HAL_StatusTypeDef status = wokwi_i2c_probe((uint8_t)(display->address >> 1U));
+#else
+  HAL_StatusTypeDef status = HAL_I2C_IsDeviceReady(
+      display->i2c, display->address, 1U, APP_IO_TIMEOUT_MS);
+#endif
+  return save_status(display, status, SSD1306_PROBE, 0U, 0U);
 }
 
 void ssd1306_clear(ssd1306_t *display)
 {
   if (display != NULL) {
     clear_bytes(display->buffer, sizeof(display->buffer));
+    for (unsigned page = 0; page < SSD1306_PAGES; ++page) {
+      display->dirty_first[page] = 0U;
+      display->dirty_last[page] = SSD1306_WIDTH - 1U;
+    }
   }
 }
 
-static void draw_pixel(ssd1306_t *display, uint8_t x, uint8_t y)
+static void set_column(ssd1306_t *display, uint8_t page, uint8_t x, uint8_t value)
 {
-  if ((x >= SSD1306_WIDTH) || (y >= SSD1306_HEIGHT)) {
-    return;
-  }
-  display->buffer[x + ((uint16_t)(y / 8U) * SSD1306_WIDTH)] |=
-      (uint8_t)(1U << (y & 7U));
+  uint8_t *column = &display->buffer[page * SSD1306_WIDTH + x];
+  if (*column == value) { return; }
+  *column = value;
+  if (x < display->dirty_first[page]) { display->dirty_first[page] = x; }
+  if (x > display->dirty_last[page]) { display->dirty_last[page] = x; }
 }
 
-void ssd1306_write_text(ssd1306_t *display,
-                        uint8_t x,
-                        uint8_t y,
-                        const char *text)
+void ssd1306_write_line(ssd1306_t *display, uint8_t page, const char *text)
 {
-  if ((display == NULL) || (text == NULL)) {
+  if ((display == NULL) || (text == NULL) || page >= SSD1306_PAGES) {
     return;
   }
+  uint8_t x = 0U;
   while ((*text != '\0') && (x <= (SSD1306_WIDTH - 6U))) {
     uint8_t columns[5];
     glyph(*text, columns);
     for (uint8_t column = 0U; column < 5U; ++column) {
-      for (uint8_t row = 0U; row < 7U; ++row) {
-        if ((columns[column] & (1U << row)) != 0U) {
-          draw_pixel(display, (uint8_t)(x + column), (uint8_t)(y + row));
-        }
-      }
+      set_column(display, page, x++, columns[column]);
     }
-    x = (uint8_t)(x + 6U);
+    set_column(display, page, x++, 0U);
     ++text;
   }
+  while (x < SSD1306_WIDTH) { set_column(display, page, x++, 0U); }
 }
 
 bool ssd1306_update_page(ssd1306_t *display, uint8_t page)
@@ -203,12 +204,13 @@ bool ssd1306_update_page(ssd1306_t *display, uint8_t page)
     return false;
   }
 
-  /*
-   * Horizontal addressing, restricted to one page. No page-mode commands.
-   * Send 128 bytes in one transaction instead of 128 separate transactions.
-   */
+  const uint8_t first = display->dirty_first[page];
+  const uint8_t last = display->dirty_last[page];
+  if (first >= SSD1306_WIDTH) { return true; }
+  const uint16_t length = (uint16_t)last - first + 1U;
+  /* First frame sends 128 bytes/page; later frames only the changed span. */
   const uint8_t address_window[] = {
-    0x21U, 0x00U, 0x7FU, /* columns 0..127 */
+    0x21U, first, last,
     0x22U, page, page
   };
   for (uint16_t i = 0U; i < sizeof(address_window); ++i) {
@@ -220,11 +222,15 @@ bool ssd1306_update_page(ssd1306_t *display, uint8_t page)
 #if defined(WOKWI_ENABLED)
   HAL_StatusTypeDef status = wokwi_i2c_mem_write(
       (uint8_t)(display->address >> 1U), SSD1306_DATA,
-      &display->buffer[page * SSD1306_WIDTH], SSD1306_WIDTH);
+      &display->buffer[page * SSD1306_WIDTH + first], length);
 #else
   HAL_StatusTypeDef status = HAL_I2C_Mem_Write(display->i2c, display->address,
-      SSD1306_DATA, I2C_MEMADD_SIZE_8BIT, &display->buffer[page * SSD1306_WIDTH],
-      SSD1306_WIDTH, APP_IO_TIMEOUT_MS);
+      SSD1306_DATA, I2C_MEMADD_SIZE_8BIT, &display->buffer[page * SSD1306_WIDTH + first],
+      length, APP_IO_TIMEOUT_MS);
 #endif
-  return save_status(display, status, SSD1306_PAGE_DATA, 0U, page);
+  if (!save_status(display, status, SSD1306_PAGE_DATA, 0U, page)) { return false; }
+  display->dirty_first[page] = SSD1306_WIDTH;
+  display->dirty_last[page] = 0U;
+  display->data_bytes_sent += length;
+  return true;
 }

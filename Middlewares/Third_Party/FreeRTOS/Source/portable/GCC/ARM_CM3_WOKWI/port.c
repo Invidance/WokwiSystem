@@ -21,14 +21,17 @@ extern void * volatile pxCurrentTCB;
 /* Visible in GDB even when UART/OLED are unavailable. */
 volatile uint32_t wokwi_port_tick_count;
 volatile uint32_t wokwi_port_switch_count;
+volatile uint32_t wokwi_port_idle_calls;
 volatile BaseType_t wokwi_port_yield_pending;
 
 static UBaseType_t uxCriticalNesting;
+static BaseType_t xCriticalYieldPending;
 
 static void prvTaskExitError( void ) __attribute__(( used, noinline ));
 static void prvTaskBootstrap( void ) __attribute__(( naked ));
 static void prvStartFirstTask( void ) __attribute__(( naked ));
 static void prvSelectNextTask( void ) __attribute__(( used, noinline ));
+static void prvYieldContext( void ) __attribute__(( naked ));
 
 /*
  * Software context frame, ten words and eight-byte aligned:
@@ -76,11 +79,23 @@ static void prvSelectNextTask( void )
     vTaskSwitchContext();
 }
 
-/* Save the running task and restore the selected task without an exception. */
-void vPortYieldDirect( void ) __attribute__(( naked ));
+/* FreeRTOS queue operations and xTaskResumeAll may yield inside a critical
+ * section. The Cortex-M PendSV port defers that switch automatically; this
+ * Thread-mode port must defer it explicitly until the outermost exit. */
 void vPortYieldDirect( void )
 {
+    if( uxCriticalNesting != 0U ) {
+        xCriticalYieldPending = pdTRUE;
+    } else {
+        prvYieldContext();
+    }
+}
+
+/* Save the running task and restore the selected task without an exception. */
+static void prvYieldContext( void )
+{
     __asm volatile(
+        " cpsid i                            \n"
         " mrs r0, psp                         \n"
         " sub r0, r0, #40                    \n"
         " stmia r0, {r4-r11}                 \n"
@@ -91,7 +106,6 @@ void vPortYieldDirect( void )
         " ldr r3, =pxCurrentTCB              \n"
         " ldr r2, [r3]                       \n"
         " str r0, [r2]                       \n"
-        " cpsid i                            \n"
         " bl prvSelectNextTask               \n"
         " ldr r3, =pxCurrentTCB              \n"
         " ldr r2, [r3]                       \n"
@@ -158,8 +172,10 @@ void vPortSetupTimerInterrupt( void )
 BaseType_t xPortStartScheduler( void )
 {
     uxCriticalNesting = 0U;
+    xCriticalYieldPending = pdFALSE;
     wokwi_port_tick_count = 0U;
     wokwi_port_switch_count = 0U;
+    wokwi_port_idle_calls = 0U;
     wokwi_port_yield_pending = pdFALSE;
     vPortSetupTimerInterrupt();
     prvStartFirstTask();
@@ -182,20 +198,32 @@ void vPortExitCritical( void )
     configASSERT( uxCriticalNesting > 0U );
     --uxCriticalNesting;
     if( uxCriticalNesting == 0U ) {
+        BaseType_t yield = xCriticalYieldPending;
+        xCriticalYieldPending = pdFALSE;
         portENABLE_INTERRUPTS();
+        if( yield != pdFALSE ) { prvYieldContext(); }
     }
 }
 
 /* Idle is the safe Thread-mode handoff point for a task woken by SysTick. */
 void vApplicationIdleHook( void )
 {
-    __asm volatile( "dsb" ::: "memory" );
-    __asm volatile( "wfi" );
-    __asm volatile( "isb" );
-
+    ++wokwi_port_idle_calls;
+    /* Check before sleeping, and consume the request atomically with respect
+     * to SysTick. Otherwise a wake request can be cleared after a newer IRQ. */
+    portDISABLE_INTERRUPTS();
     if( wokwi_port_yield_pending != pdFALSE ) {
         wokwi_port_yield_pending = pdFALSE;
+        portENABLE_INTERRUPTS();
         vPortYieldDirect();
+    } else {
+        /* Keep WFI with IRQs enabled, as in the confirmed simulator run.
+         * A tick in the small gap before WFI delays dispatch by at most the
+         * next 1ms tick; it cannot lose the recorded yield request. */
+        portENABLE_INTERRUPTS();
+        __asm volatile( "dsb" ::: "memory" );
+        __asm volatile( "wfi" );
+        __asm volatile( "isb" ::: "memory" );
     }
 }
 

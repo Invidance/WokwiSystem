@@ -30,6 +30,8 @@ typedef struct {
   I2C_HandleTypeDef *i2c;
   uint16_t address;
   uint8_t buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8U];
+  uint8_t dirty_first[SSD1306_PAGES], dirty_last[SSD1306_PAGES];
+  uint32_t data_bytes_sent;
   bool initialized;
   HAL_StatusTypeDef last_status;
   uint32_t last_i2c_error;
@@ -39,7 +41,9 @@ typedef struct {
 /* Zero-initialize the object ONCE. Caller owns startup delay and I2C mutex. */
 bool ssd1306_init(ssd1306_t *display, I2C_HandleTypeDef *i2c, uint8_t address_7bit);
 void ssd1306_clear(ssd1306_t *display);
-void ssd1306_write_text(ssd1306_t *display, uint8_t x, uint8_t y, const char *text);
+/* Replace an entire 8-pixel text row, clearing the tail of the old text. */
+void ssd1306_write_line(ssd1306_t *display, uint8_t page, const char *text);
+bool ssd1306_probe(ssd1306_t *display);
 /* Caller locks one page at a time, releasing the bus between pages. */
 bool ssd1306_update_page(ssd1306_t *display, uint8_t page);
 

@@ -10,6 +10,7 @@
 #define APP_IO_TIMEOUT_MS           50U
 #define APP_MUTEX_TIMEOUT_MS       100U
 #define APP_OLED_BOOT_MS           100U
+#define APP_DIAGNOSTIC_PERIOD_MS  5000U
 #define APP_FILTER_SIZE              5U
 #define APP_PRESSURE_MIN_PA      30000U
 #define APP_PRESSURE_MAX_PA     120000U

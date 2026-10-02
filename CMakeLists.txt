@@ -54,7 +54,11 @@ if(WOKWI_SIMULATION)
         "portable/GCC/ARM_CM3/port\\.c$")
     set_property(TARGET FreeRTOS PROPERTY SOURCES "${FREERTOS_TARGET_SOURCES}")
     target_sources(FreeRTOS PRIVATE "${WOKWI_FREERTOS_PORT_DIR}/port.c")
-    target_sources(${CMAKE_PROJECT_NAME} PRIVATE Core/Src/wokwi_i2c.c)
+    target_sources(${CMAKE_PROJECT_NAME} PRIVATE Core/Src/wokwi_i2c.c Core/Src/wokwi_spi.c)
+    # GPIO loops run many times per byte. Retain debug symbols, but avoid the
+    # call/stack overhead of -O0 on these two small simulator transports.
+    set_source_files_properties(Core/Src/wokwi_i2c.c Core/Src/wokwi_spi.c
+        PROPERTIES COMPILE_OPTIONS "-O2")
     target_include_directories(stm32cubemx BEFORE INTERFACE
         "${WOKWI_FREERTOS_PORT_DIR}")
 endif()

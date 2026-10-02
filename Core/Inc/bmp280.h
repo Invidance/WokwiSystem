@@ -23,6 +23,7 @@ typedef struct {
   GPIO_TypeDef *cs_port;
   uint16_t cs_pin;
   bool initialized;
+  uint8_t chip_id; /* Actual register D0, including an unexpected ID. */
   HAL_StatusTypeDef last_status;
   uint32_t last_error;
 } bmp280_t;

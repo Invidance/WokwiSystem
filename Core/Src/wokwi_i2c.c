@@ -1,4 +1,5 @@
 #include "wokwi_i2c.h"
+#include "app_config.h"
 
 #define SOFT_I2C_PORT       GPIOB
 #define SOFT_I2C_SCL        GPIO_PIN_8
@@ -10,6 +11,7 @@
 
 static bool configured;
 static uint32_t last_error;
+static bool sda_driving_low = true; /* Force the first release to configure SDA. */
 
 /* About 5 us at the Wokwi reset clock of 8 MHz. Exact timing is unimportant
  * for these simulated standard-mode devices, but both phases must be visible. */
@@ -25,22 +27,29 @@ static inline void half_period(void)
 static inline void scl_low(void)  { SOFT_I2C_PORT->BRR = SOFT_I2C_SCL; }
 static inline void scl_high(void) { SOFT_I2C_PORT->BSRR = SOFT_I2C_SCL; }
 
-/* Wokwi's Blue Pill model does not reliably report a released AF/open-drain
- * pin as high. Emulate open drain on SDA explicitly: output-low for zero,
- * input with pull-up for one/read/ACK. SCL is push-pull; simulated devices do
- * not use clock stretching. */
+/* GPIO workaround confirmed by the user's I2C/OLED run: output-low for zero,
+ * input with pull-up for one/read/ACK. SCL is push-pull, Wokwi-only, without
+ * clock stretching. Cache direction to avoid redundant GPIO mode events. */
 static inline void sda_low(void)
 {
+  if (sda_driving_low) { return; }
   SOFT_I2C_PORT->BRR = SOFT_I2C_SDA;
   MODIFY_REG(SOFT_I2C_PORT->CRH, SOFT_I2C_SDA_CR_MASK,
              SOFT_I2C_SDA_OUTPUT);
+  sda_driving_low = true;
 }
 
 static inline void sda_release(void)
 {
+  if (!sda_driving_low) { return; }
+  /* Release the output BEFORE setting ODR high. Never actively drive SDA
+   * high against the slave's ACK or a zero data bit. */
+  MODIFY_REG(SOFT_I2C_PORT->CRH, SOFT_I2C_SDA_CR_MASK,
+             0x04U << SOFT_I2C_SDA_CR_SHIFT); /* Floating input. */
   SOFT_I2C_PORT->BSRR = SOFT_I2C_SDA;
   MODIFY_REG(SOFT_I2C_PORT->CRH, SOFT_I2C_SDA_CR_MASK,
              SOFT_I2C_SDA_INPUT_PU);
+  sda_driving_low = false;
 }
 
 static inline bool sda_is_high(void) { return (SOFT_I2C_PORT->IDR & SOFT_I2C_SDA) != 0U; }
@@ -103,8 +112,8 @@ static bool write_byte(uint8_t value)
   sda_release();
   half_period();
   scl_high();
-  bool acknowledged = !sda_is_high();
   half_period();
+  bool acknowledged = !sda_is_high();
   scl_low();
   if (!acknowledged) { last_error = HAL_I2C_ERROR_AF; }
   return acknowledged;
@@ -118,8 +127,8 @@ static bool read_byte(uint8_t *value, bool acknowledge)
     scl_low();
     half_period();
     scl_high();
-    result = (uint8_t)((result << 1U) | (sda_is_high() ? 1U : 0U));
     half_period();
+    result = (uint8_t)((result << 1U) | (sda_is_high() ? 1U : 0U));
   }
 
   scl_low();
@@ -171,8 +180,14 @@ HAL_StatusTypeDef wokwi_i2c_mem_write(uint8_t address_7bit, uint8_t reg,
   last_error = HAL_I2C_ERROR_NONE;
   if (wokwi_i2c_init() != HAL_OK || !start_condition()) { return HAL_TIMEOUT; }
 
+  uint32_t started = HAL_GetTick();
   bool ok = write_byte((uint8_t)(address_7bit << 1U)) && write_byte(reg);
-  for (uint16_t i = 0U; ok && i < length; ++i) { ok = write_byte(data[i]); }
+  for (uint16_t i = 0U; ok && i < length; ++i) {
+    if ((uint32_t)(HAL_GetTick() - started) >= APP_IO_TIMEOUT_MS) {
+      last_error = HAL_I2C_ERROR_TIMEOUT;
+      ok = false;
+    } else { ok = write_byte(data[i]); }
+  }
   stop_condition();
   return ok ? HAL_OK : (last_error == HAL_I2C_ERROR_AF ? HAL_ERROR : HAL_TIMEOUT);
 }
@@ -184,11 +199,15 @@ HAL_StatusTypeDef wokwi_i2c_mem_read(uint8_t address_7bit, uint8_t reg,
   last_error = HAL_I2C_ERROR_NONE;
   if (wokwi_i2c_init() != HAL_OK || !start_condition()) { return HAL_TIMEOUT; }
 
+  uint32_t started = HAL_GetTick();
   bool ok = write_byte((uint8_t)(address_7bit << 1U)) && write_byte(reg);
   if (ok) { ok = start_condition(); }
   if (ok) { ok = write_byte((uint8_t)((address_7bit << 1U) | 1U)); }
   for (uint16_t i = 0U; ok && i < length; ++i) {
-    ok = read_byte(&data[i], i + 1U < length);
+    if ((uint32_t)(HAL_GetTick() - started) >= APP_IO_TIMEOUT_MS) {
+      last_error = HAL_I2C_ERROR_TIMEOUT;
+      ok = false;
+    } else { ok = read_byte(&data[i], i + 1U < length); }
   }
   stop_condition();
   return ok ? HAL_OK : (last_error == HAL_I2C_ERROR_AF ? HAL_ERROR : HAL_TIMEOUT);

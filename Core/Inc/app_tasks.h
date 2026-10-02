@@ -20,6 +20,8 @@ typedef struct {
   uint32_t recovery_status, uart_failures;
   uint32_t hal_ms, rtos_ms, heap_free, heap_min_free;
   uint32_t stack_free_bytes[3];
+  uint32_t chip_id[2];
+  uint32_t oled_data_bytes, oled_update_ms;
 } AppDebug;
 
 extern volatile AppDebug app_debug;

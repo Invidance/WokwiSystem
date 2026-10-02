@@ -2,6 +2,7 @@
 #include "app_config.h"
 #if defined(WOKWI_ENABLED)
 #include "wokwi_i2c.h"
+#include "wokwi_spi.h"
 #endif
 
 #define BMP280_REG_ID       0xD0U
@@ -19,9 +20,24 @@ static bmp280_status_t save_result(bmp280_t *sensor, HAL_StatusTypeDef status)
     sensor->last_error = HAL_I2C_GetError(sensor->i2c);
 #endif
   } else {
+#if defined(WOKWI_ENABLED)
+    sensor->last_error = HAL_SPI_ERROR_NONE;
+#else
     sensor->last_error = HAL_SPI_GetError(sensor->spi);
+#endif
   }
   return status == HAL_OK ? BMP280_OK : BMP280_ERROR_COMMUNICATION;
+}
+
+static HAL_StatusTypeDef spi_exchange(bmp280_t *sensor, uint8_t tx, uint8_t *rx)
+{
+#if defined(WOKWI_ENABLED)
+  (void)sensor;
+  *rx = wokwi_spi_exchange(tx);
+  return HAL_OK; /* SPI has no ACK; the ID/range checks validate the response. */
+#else
+  return HAL_SPI_TransmitReceive(sensor->spi, &tx, rx, 1U, APP_IO_TIMEOUT_MS);
+#endif
 }
 
 static bmp280_status_t read_registers(bmp280_t *sensor, uint8_t reg,
@@ -39,14 +55,13 @@ static bmp280_status_t read_registers(bmp280_t *sensor, uint8_t reg,
   }
 
   uint8_t command = reg | 0x80U;
-  uint8_t dummy = 0xFFU;
+  uint8_t discarded;
   HAL_GPIO_WritePin(sensor->cs_port, sensor->cs_pin, GPIO_PIN_RESET);
-  HAL_StatusTypeDef status = HAL_SPI_Transmit(sensor->spi, &command, 1U,
-                                              APP_IO_TIMEOUT_MS);
+  /* Drain the command response too: every SPI byte is full-duplex. */
+  HAL_StatusTypeDef status = spi_exchange(sensor, command, &discarded);
   /* One byte per exchange matches the custom chip's SPI callback. */
   for (uint16_t i = 0; status == HAL_OK && i < length; ++i) {
-    status = HAL_SPI_TransmitReceive(sensor->spi, &dummy, &data[i], 1U,
-                                     APP_IO_TIMEOUT_MS);
+    status = spi_exchange(sensor, 0xFFU, &data[i]);
   }
   HAL_GPIO_WritePin(sensor->cs_port, sensor->cs_pin, GPIO_PIN_SET);
   return save_result(sensor, status);
@@ -65,11 +80,11 @@ static bmp280_status_t write_register(bmp280_t *sensor, uint8_t reg, uint8_t val
 #endif
   }
   uint8_t command = reg & 0x7FU;
+  uint8_t discarded;
   HAL_GPIO_WritePin(sensor->cs_port, sensor->cs_pin, GPIO_PIN_RESET);
-  HAL_StatusTypeDef status = HAL_SPI_Transmit(sensor->spi, &command, 1U,
-                                              APP_IO_TIMEOUT_MS);
+  HAL_StatusTypeDef status = spi_exchange(sensor, command, &discarded);
   if (status == HAL_OK) {
-    status = HAL_SPI_Transmit(sensor->spi, &value, 1U, APP_IO_TIMEOUT_MS);
+    status = spi_exchange(sensor, value, &discarded);
   }
   HAL_GPIO_WritePin(sensor->cs_port, sensor->cs_pin, GPIO_PIN_SET);
   return save_result(sensor, status);
@@ -79,6 +94,7 @@ static bmp280_status_t initialize(bmp280_t *sensor)
 {
   uint8_t id = 0;
   bmp280_status_t status = read_registers(sensor, BMP280_REG_ID, &id, 1U);
+  sensor->chip_id = id;
   if (status != BMP280_OK) {
     return status;
   }
@@ -113,6 +129,9 @@ bmp280_status_t bmp280_init_spi(bmp280_t *sensor, SPI_HandleTypeDef *spi,
   *sensor = (bmp280_t){ .bus = BMP280_BUS_SPI, .spi = spi,
                         .cs_port = cs_port, .cs_pin = cs_pin };
   HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
+#if defined(WOKWI_ENABLED)
+  wokwi_spi_init();
+#endif
   return initialize(sensor);
 }
 

@@ -28,9 +28,13 @@ static ssd1306_t oled; /* DisplayTask is the sole owner. */
 #if defined(WOKWI_ENABLED)
 #define APP_RTOS_PORT_NAME "WOKWI-DIRECT"
 #define APP_I2C_TRANSPORT_NAME "SOFT"
+#define APP_SPI_TRANSPORT_NAME "SOFT"
+extern volatile uint32_t wokwi_port_idle_calls;
+extern volatile uint32_t wokwi_port_switch_count;
 #else
 #define APP_RTOS_PORT_NAME "ARM-CM3"
 #define APP_I2C_TRANSPORT_NAME "HAL"
+#define APP_SPI_TRANSPORT_NAME "HAL"
 #endif
 
 _Noreturn void app_panic(AppFault fault)
@@ -128,6 +132,7 @@ static void read_sensor(bmp280_t *sensor, unsigned channel, SensorReading *out)
   out->status = sensor_status(result);
   out->hal_status = sensor->last_status;
   out->hal_error = sensor->last_error;
+  app_debug.chip_id[channel] = sensor->chip_id;
   if (result != BMP280_OK) {
     sensor->initialized = false;
     out->pressure_pa = 0;
@@ -230,7 +235,7 @@ static void draw_reading(unsigned channel, const DisplayReading *reading,
                        reading->status == PRESSURE_STALE ? "STALE" : "ERROR";
     snprintf(line, sizeof(line), "%s: %s", name, value);
   }
-  ssd1306_write_text(&oled, 0U, channel == 0U ? 16U : 32U, line);
+  ssd1306_write_line(&oled, channel == 0U ? 2U : 4U, line);
   snprintf(line, sizeof(line), "%s", pressure_status_text(reading->status));
   if (reading->status == PRESSURE_OK) {
     for (unsigned status = PRESSURE_COMM; status <= PRESSURE_STALE; ++status) {
@@ -241,14 +246,13 @@ static void draw_reading(unsigned channel, const DisplayReading *reading,
       }
     }
   }
-  ssd1306_write_text(&oled, 0U, channel == 0U ? 24U : 40U, line);
+  ssd1306_write_line(&oled, channel == 0U ? 3U : 5U, line);
 }
 
 static void draw_frame(const DisplayData_t *data)
 {
   char line[22];
-  ssd1306_clear(&oled);
-  ssd1306_write_text(&oled, 0U, 0U, "PRESSURE MONITOR");
+  ssd1306_write_line(&oled, 0U, "PRESSURE MONITOR");
   draw_reading(0U, &data->channel[0], data->warnings);
   draw_reading(1U, &data->channel[1], data->warnings);
   if (data->channel[0].status == PRESSURE_OK &&
@@ -256,7 +260,9 @@ static void draw_frame(const DisplayData_t *data)
     snprintf(line, sizeof(line), "DIFF: %lu.%02lu HPA",
              (unsigned long)(data->difference_pa / 100U),
              (unsigned long)(data->difference_pa % 100U));
-    ssd1306_write_text(&oled, 0U, 48U, line);
+    ssd1306_write_line(&oled, 6U, line);
+  } else {
+    ssd1306_write_line(&oled, 6U, "");
   }
   const char *summary = "STATUS: OK";
   if ((data->warnings & PRESSURE_WARNING_MISMATCH) != 0U) {
@@ -267,20 +273,32 @@ static void draw_frame(const DisplayData_t *data)
              data->channel[1].status != PRESSURE_OK) {
     summary = "STATUS: WAIT";
   }
-  ssd1306_write_text(&oled, 0U, 56U, summary);
+  ssd1306_write_line(&oled, 7U, summary);
 }
 
 static bool update_oled(const DisplayData_t *data)
 {
+  static uint32_t last_probe;
+  uint32_t started = now_ms();
   if (!oled.initialized) {
     if (!lock_i2c()) { return false; }
     bool ready = ssd1306_init(&oled, &hi2c1, APP_OLED_ADDRESS);
     if (!ready) { recover_i2c(oled.last_status, oled.last_i2c_error); }
     osMutexRelease(i2cmutexHandle);
     if (!ready) { return false; }
+    last_probe = now_ms();
+  } else if ((uint32_t)(now_ms() - last_probe) >= APP_RETRY_MS) {
+    /* Dirty rendering may send no data at all. Still detect disconnection. */
+    if (!lock_i2c()) { return false; }
+    bool ready = ssd1306_probe(&oled);
+    if (!ready) { recover_i2c(oled.last_status, oled.last_i2c_error); }
+    osMutexRelease(i2cmutexHandle);
+    last_probe = now_ms();
+    if (!ready) { return false; }
   }
   draw_frame(data); /* Rendering never holds the bus. */
   for (uint8_t page = 0; page < SSD1306_PAGES; ++page) {
+    if (oled.dirty_first[page] >= SSD1306_WIDTH) { continue; }
     if (!lock_i2c()) { return false; }
     bool sent = ssd1306_update_page(&oled, page);
     if (!sent) { recover_i2c(oled.last_status, oled.last_i2c_error); }
@@ -293,6 +311,8 @@ static bool update_oled(const DisplayData_t *data)
 #endif
   }
   ++app_debug.oled_frames;
+  app_debug.oled_data_bytes = oled.data_bytes_sent;
+  app_debug.oled_update_ms = now_ms() - started;
   return true;
 }
 
@@ -316,13 +336,18 @@ void app_display_task(void)
   uint32_t last_oled_attempt = 0, reported_failure = 0;
   uint32_t reported_mutex = 0;
   snprintf(line, sizeof(line),
-           "BOOT PRESSURE PORT=%s I2C=%s RTOS=%luHz CPU=%luHz\r\n",
-           APP_RTOS_PORT_NAME, APP_I2C_TRANSPORT_NAME,
+           "BOOT PRESSURE PORT=%s I2C=%s SPI=%s OLED=DIRTY RTOS=%luHz CPU=%luHz\r\n",
+           APP_RTOS_PORT_NAME, APP_I2C_TRANSPORT_NAME, APP_SPI_TRANSPORT_NAME,
            (unsigned long)osKernelGetTickFreq(), (unsigned long)SystemCoreClock);
   uart_line(line);
   if (osKernelGetTickFreq() != 1000U) { app_panic(APP_FAULT_KERNEL); }
   uint32_t start_rtos = now_ms(), start_hal = HAL_GetTick();
   bool clock_reported = false;
+  uint32_t stats_time = now_ms(), stats_bytes = 0U;
+  uint32_t stats_sensors = 0U;
+#if defined(WOKWI_ENABLED)
+  uint32_t stats_idle = wokwi_port_idle_calls, stats_switches = wokwi_port_switch_count;
+#endif
   osDelay(APP_OLED_BOOT_MS);
   uint32_t deadline = now_ms();
   for (;;) {
@@ -339,6 +364,9 @@ void app_display_task(void)
                  view.channel[i].hal_error != logged.channel[i].hal_error;
     }
     if (changed) {
+      snprintf(line, sizeof(line), "CHIP ID I2C=0x%02lX SPI=0x%02lX expected=0x58\r\n",
+               (unsigned long)app_debug.chip_id[0], (unsigned long)app_debug.chip_id[1]);
+      uart_line(line);
       for (unsigned i = 0; i < APP_CHANNELS; ++i) {
         const DisplayReading *r = &view.channel[i];
         snprintf(line, sizeof(line), "%s %s filtered_pa=%lu HAL=%lu ERR=0x%08lX\r\n",
@@ -403,6 +431,27 @@ void app_display_task(void)
                (unsigned long)app_debug.stack_free_bytes[2]);
       uart_line(line);
       clock_reported = true;
+    }
+    if ((uint32_t)(now_ms() - stats_time) >= APP_DIAGNOSTIC_PERIOD_MS) {
+      snprintf(line, sizeof(line),
+               "LOAD ms=%lu samples=%lu oled_bytes=%lu last_frame_ms=%lu heap_min=%lu\r\n",
+               (unsigned long)(now_ms() - stats_time),
+               (unsigned long)(app_debug.sensor_cycles - stats_sensors),
+               (unsigned long)(oled.data_bytes_sent - stats_bytes),
+               (unsigned long)app_debug.oled_update_ms,
+               (unsigned long)app_debug.heap_min_free);
+      uart_line(line);
+#if defined(WOKWI_ENABLED)
+      snprintf(line, sizeof(line), "SCHED idle_calls=%lu switches=%lu\r\n",
+               (unsigned long)(wokwi_port_idle_calls - stats_idle),
+               (unsigned long)(wokwi_port_switch_count - stats_switches));
+      uart_line(line);
+      stats_idle = wokwi_port_idle_calls;
+      stats_switches = wokwi_port_switch_count;
+#endif
+      stats_time = now_ms();
+      stats_bytes = oled.data_bytes_sent;
+      stats_sensors = app_debug.sensor_cycles;
     }
     wait_period(&deadline, APP_DISPLAY_PERIOD_MS);
   }

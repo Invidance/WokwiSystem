@@ -135,11 +135,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-#if !defined(WOKWI_ENABLED)
   MX_I2C1_Init();
-#else
-  (void)MX_I2C1_Init; /* Keep the CubeMX-generated function, but do not run it. */
-#endif
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
@@ -261,7 +257,9 @@ static void MX_I2C1_Init(void)
 {
 
   /* USER CODE BEGIN I2C1_Init 0 */
-
+#if defined(WOKWI_ENABLED)
+  return; /* GPIO-I2C is initialized by SensorTask; leave I2C1 disabled. */
+#endif
   /* USER CODE END I2C1_Init 0 */
 
   /* USER CODE BEGIN I2C1_Init 1 */
@@ -295,7 +293,9 @@ static void MX_SPI1_Init(void)
 {
 
   /* USER CODE BEGIN SPI1_Init 0 */
-
+#if defined(WOKWI_ENABLED)
+  return; /* GPIO-SPI is initialized by SensorTask; leave SPI1 disabled. */
+#endif
   /* USER CODE END SPI1_Init 0 */
 
   /* USER CODE BEGIN SPI1_Init 1 */
