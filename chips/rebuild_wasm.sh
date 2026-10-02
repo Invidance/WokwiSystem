@@ -1,0 +1,1 @@
+wokwi-cli chip compile bmp280.chip.c -o bmp280.chip.wasm

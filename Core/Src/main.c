@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "pressure_monitor.h"
+#include "stm32f103xb.h"
+#include "stm32f1xx_hal_gpio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,6 +105,7 @@ int main(void)
   {
     pressure_monitor_update();
     HAL_Delay(10U);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
