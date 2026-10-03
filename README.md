@@ -1,285 +1,378 @@
 # Wokwi Pressure Monitor
 
-STM32F103C8 (Blue Pill), FreeRTOS/CMSIS-RTOS2, два custom BMP280 (I2C і SPI),
-OLED SSD1306 128×64 та UART-діагностика. Це **симуляційне** тестове завдання:
-формат тиску custom chip не є калібруванням фізичного Bosch BMP280.
+Embedded system for **STM32F103C8T6 (Blue Pill)** built with **FreeRTOS / CMSIS-RTOS2**.
 
-## Як читати код
+The project reads atmospheric pressure from two BMP280 sensors using two independent communication interfaces:
+
+- BMP280 #1 — I2C
+- BMP280 #2 — SPI
+- SSD1306 128×64 OLED — I2C
+- USART1 — diagnostic output
+- PC13 — system status LED
+
+The purpose of the project is to demonstrate an RTOS-based architecture where sensor acquisition, data processing, and output are separated into independent tasks.
+
+---
+
+## System Architecture
+
+The application is organized as a pipeline of three FreeRTOS tasks:
+
+```mermaid
+flowchart LR
+    I2C[BMP280 / I2C] --> S[SensorTask]
+    SPI[BMP280 / SPI] --> S
+
+    S -->|RawQueue| P[ProcessingTask]
+    P -->|DisplayQueue| D[DisplayTask]
+
+    D --> OLED[SSD1306 OLED]
+    D --> UART[USART1]
+    D --> LED[PC13 Status LED]
+```
+
+The tasks communicate through **FreeRTOS message queues**.  
+The I2C bus is protected by a **mutex**, because the I2C BMP280 and SSD1306 display share the same bus.
+
+### SensorTask
+
+`SensorTask` is responsible for acquiring measurements from both sensors.
+
+Every **100 ms** it:
+
+1. reads the first BMP280 through I2C;
+2. reads the second BMP280 through SPI;
+3. stores both measurements and their status information in `SensorRawData_t`;
+4. sends the structure to `RawQueue`.
+
+The task has priority `AboveNormal` and a 1024-byte stack.
+
+### ProcessingTask
+
+`ProcessingTask` waits for new measurements in `RawQueue`.
+
+It performs all pressure-data validation and processing:
+
+- communication and Chip ID validation;
+- valid pressure range check;
+- median filtering over 5 samples;
+- pressure spike detection;
+- stale-data detection;
+- comparison between I2C and SPI measurements.
+
+Valid pressure values must be within **30 000–120 000 Pa**.
+
+A change greater than **2000 Pa** relative to the median is detected as a spike.
+
+When both channels are valid, their difference is calculated.  
+A difference greater than **1000 Pa** produces a `MISMATCH` warning.
+
+The processed result is sent to `DisplayQueue`.
+
+The task has priority `Normal` and a 1024-byte stack.
+
+### DisplayTask
+
+`DisplayTask` receives the newest processed result and updates the user interface every **500 ms**.
+
+It is responsible for:
+
+- rendering information on the SSD1306 OLED;
+- UART diagnostic output;
+- controlling the PC13 status LED;
+- monitoring RTOS heap and task stack usage.
+
+The OLED displays the pressure from both sensors, their current state, the difference between the measurements, and the overall system status.
+
+The task has priority `BelowNormal` and a 2048-byte stack.
+
+---
+
+## FreeRTOS Objects
+
+| Object | Size | Purpose |
+|---|---:|---|
+| `SensorTask` | 1024 B stack | Sensor acquisition |
+| `ProcessingTask` | 1024 B stack | Data validation and processing |
+| `DisplayTask` | 2048 B stack | OLED, UART and status output |
+| `RawQueue` | 4 messages | SensorTask → ProcessingTask |
+| `DisplayQueue` | 2 messages | ProcessingTask → DisplayTask |
+| `i2cmutex` | — | Protects the shared I2C bus |
+
+The RTOS tick frequency is **1000 Hz**, giving a 1 ms RTOS time base.
+
+If one of the queues becomes full, the oldest message is removed before the newest one is inserted. This keeps the system working with the most recent sensor information instead of processing outdated data.
+
+---
+
+## Pressure Processing
+
+Each sensor channel can have one of the following states:
+
+| Status | Description |
+|---|---|
+| `WAIT` | Not enough samples have been collected yet |
+| `OK` | Measurement is valid |
+| `COMM` | Communication error |
+| `ID` | Invalid BMP280 Chip ID |
+| `RANGE` | Pressure is outside the allowed range |
+| `SPIKE` | Sudden pressure change detected |
+| `STALE` | Measurement is too old |
+
+Five valid measurements are required before the median-filtered pressure is considered ready.
+
+Warnings are retained for at least **2 seconds**, so short communication errors or pressure spikes remain visible to the user.
+
+---
+
+## Communication Interfaces
+
+### I2C
+
+The I2C bus is shared by:
+
+- BMP280 at address `0x76`;
+- SSD1306 OLED at address `0x3C`.
+
+Because both devices use the same bus, access is synchronized using the FreeRTOS `i2cmutex`.
+
+### SPI
+
+The second BMP280 uses SPI in **Mode 0**, **MSB first**.
+
+Its Chip ID is checked during initialization and must equal `0x58`.
+
+Unlike I2C, SPI does not provide an ACK mechanism, so reading and validating the Chip ID is also used to confirm that the expected sensor is responding.
+
+---
+
+## Pin Configuration
+
+### Wokwi Simulation
+
+| STM32 Pin | Function | Connected Device |
+|---|---|---|
+| **PB8** | Software I2C SCL | BMP280 I2C + SSD1306 |
+| **PB9** | Software I2C SDA | BMP280 I2C + SSD1306 |
+| **PA4** | SPI CS | BMP280 SPI |
+| **PA5** | SPI SCK | BMP280 SPI |
+| **PA6** | SPI MISO | BMP280 SPI SDO |
+| **PA7** | SPI MOSI | BMP280 SPI SDI |
+| **PA9** | USART1 TX | Wokwi Serial Monitor RX |
+| **PA10** | USART1 RX | Wokwi Serial Monitor TX |
+| **PC13** | Status LED | System warning/error indication |
+
+The BMP280 sensors are powered from **3.3 V**.
+
+The SSD1306 module in the Wokwi diagram is connected to **5 V**.
+
+All devices share a common **GND**.
+
+The Wokwi I2C bus also contains explicit **4.7 kΩ pull-up resistors** on SDA and SCL.
+
+### Physical STM32F103
+
+When `WOKWI_SIMULATION=OFF`, the firmware uses the standard STM32 peripherals:
+
+| STM32 Pin | Peripheral | Function |
+|---|---|---|
+| **PB6** | I2C1 SCL | Hardware I2C clock |
+| **PB7** | I2C1 SDA | Hardware I2C data |
+| **PA4** | GPIO | SPI Chip Select |
+| **PA5** | SPI1 SCK | SPI clock |
+| **PA6** | SPI1 MISO | SPI input |
+| **PA7** | SPI1 MOSI | SPI output |
+| **PA9** | USART1 TX | UART transmit |
+| **PA10** | USART1 RX | UART receive |
+| **PC13** | GPIO | Status LED |
+
+---
+
+## Wokwi-Specific Changes
+
+The Wokwi version uses the same application logic, FreeRTOS kernel, tasks, queues, mutex, drivers, and data-processing code as the physical STM32 version.
+
+Several low-level components are replaced only to work around limitations of the STM32F103 simulation.
+
+### Custom FreeRTOS Port
+
+The standard FreeRTOS Cortex-M3 port relies on Cortex-M exception mechanisms such as **SVC** and **PendSV** to start and switch tasks.
+
+During development, these mechanisms did not behave as required in the Wokwi STM32F103 simulation.
+
+Therefore, when:
 
 ```text
-BMP280 I2C ─┐
-            ├─ SensorTask → RawQueue → ProcessingTask → DisplayQueue → DisplayTask
-BMP280 SPI ─┘                                                         ├─ OLED
-                                                                      ├─ UART
-                                                                      └─ PC13
+WOKWI_SIMULATION=ON
 ```
 
-- `Core/Src/main.c`: згенеровані периферія, черги, м’ютекс та три задачі.
-  USER CODE-функції передають керування прикладним циклам. Після запуску
-  планувальника немає другого прикладного циклу.
-- `Core/Src/app_tasks.c`: усі три цикли, блокування I2C, повторні спроби,
-  формування екрана, UART. Лише DisplayTask використовує OLED/UART/LED.
-- `Core/Src/pressure_processing.c`: чисті обчислення без HAL, RTOS та I/O.
-- `Core/Inc/app_types.h`: повідомлення за значенням; усі значення тиску — цілі Па.
-- `Core/Inc/app_config.h`: періоди, пороги та адреси.
-- `Core/Src/bmp280.c`, `Core/Src/ssd1306.c`: синхронні драйвери без затримок,
-  внутрішніх повторних спроб та керування задачами. М’ютекс бере викликаюча задача.
-- `chips/bmp280.chip.c`: окрема Wokwi-модель; після зміни потрібна нова WASM!
-
-| Задача | Період / очікування | Пріоритет | Стек |
-|---|---|---|---|
-| SensorTask | 100 мс | AboveNormal | 1024 байти |
-| ProcessingTask | блокується на RawQueue | Normal | 1024 байти |
-| DisplayTask | 500 мс | BelowNormal | 2048 байти |
-
-RawQueue містить 4 пари вимірювань, DisplayQueue — 2 результати. При переповненні
-виробник відкидає найстаріше повідомлення. Дисплей вибирає найновіше.
-Зростання `display_dropped` нормальне: дані обробляються частіше, ніж малюються.
-Пропущені вимірювання визначаються за номером/часом і скидають вікно фільтра.
-
-I2C спільний для OLED і датчика. Один FreeRTOS-м’ютекс із успадкуванням пріоритету
-захищає операції. OLED віддає шину після кожної сторінки; під час малювання, UART,
-SPI та затримок I2C-м’ютекс не утримується. HAL timeout — 50 мс, очікування
-м’ютекса — 100 мс. Після помилки пристрій повторно ініціалізується не частіше
-разу на секунду. При BUSY/timeout контролер I2C відновлюється під м’ютексом,
-не частіше разу на секунду; звичайний NACK не спричиняє скидання шини.
-
-## Правила обробки
-
-1. Перевірка результату читання та діапазону 30 000–120 000 Па включно.
-2. П’ять послідовних коректних вимірювань → медіана. До цього стан `WAIT`.
-   Помилка зв’язку, діапазону або пропуск скидає вікно тільки відповідного
-   каналу (пропуск цілої пари — обох).
-3. Відхилення поточного значення від медіани понад 2000 Па → `SPIKE`.
-   Значення лишається у вікні: короткий імпульс не змінює результат,
-   новий сталий рівень приймається після трьох вимірювань.
-4. Різниця двох каналів зі станом `OK` понад 1000 Па → `MISMATCH`.
-5. Дані віком від 1000 мс → `STALE`, навіть якщо ProcessingTask перестала надсилати їх.
-
-Попередження накопичуються й утримуються щонайменше 2 секунди після останнього
-некоректного вимірювання. Поточний статус каналу відновлюється одразу після
-проходження перевірок; `OK: WAS SPIKE` означає вже коректний канал із недавнім
-попередженням. Різниця показується тільки для двох `OK`.
-Помилки не замінюються старим «нібито актуальним» числом: OLED показує
-`ERROR`/`WAIT`/`STALE` і причину. PC13 світиться при попередженні або відмові OLED.
-
-Без шуму й стрибків `101325 Па` на вході дає `1013.25 HPA` на екрані.
-Формат моделі: `raw20 = Pa << 3`; регістри F7/F8/F9 містять біти 19..12,
-11..4 та 3..0 у старшій половині останнього байта. Драйвер відновлює raw20
-і ділить на 8. Знімки на початку I2C-читання / SPI-CS не дозволяють таймеру
-змінити частину одного вимірювання. Це не фізичний BMP280 ADC/Bosch compensation.
-
-## Збірка на Linux
-
-Потрібні вже встановлені ARM GCC, CMake, Ninja та wokwi-cli для custom chip.
-Із кореня проєкту:
-
-```bash
-bash chips/rebuild_wasm.sh
-cmake --preset Debug
-cmake --build --preset Debug
-arm-none-eabi-size build/Debug/WokwiSystem.elf
-```
-
-Якщо проєкт перенесено між ОС/каталогами й CMake повідомляє про старий cache:
-`cmake --fresh --preset Debug` (CMake 3.24+), потім повторити build.
-`wokwi.toml` використовує `build/Debug/WokwiSystem.elf` та
-`chips/bmp280.chip.wasm`. Після збірки зупинити й заново запустити симуляцію;
-не підміняти ELF у вже запущеній GDB-сесії.
-
-CubeMX: CMSIS V2, HAL timebase TIM2, RTOS SysTick 1000 Гц; I2C1 PB6/PB7
-100 кГц; SPI1 PA5/PA6/PA7, CS PA4, Mode 0; USART1 PA9/PA10 115200 8N1.
-UART уже з’єднаний із Serial Monitor. Збережено наявний `WOKWI_ENABLED`:
-у симуляції пропускається SystemClock_Config, початковий HSI/SystemCoreClock —
-8 МГц. Це поточне налаштування, а не підтвердження точності часу в симуляторі.
-
-Через зафіксований у Wokwi стан `HAL_I2C_ERROR_TIMEOUT`, після якого I2C1
-залишається `BUSY`, збірка `WOKWI_SIMULATION=ON` використовує простий GPIO-I2C
-master на PB8/PB9. Він підтримує ACK, repeated START, відновлення
-дев’ятьма імпульсами та обслуговує обидва пристрої під наявним м’ютексом.
-У Wokwi `MX_I2C1_Init()` завершується до налаштування peripheral (у USER CODE);
-у `diagram.json` обидва пристрої перенесені на PB8/PB9 та
-додані явні pull-up 4.7 кОм.
-Штатний I2C1 не використовується для транзакцій у симуляції. Фізична збірка
-`WOKWI_SIMULATION=OFF` і далі використовує `HAL_I2C_Mem_Read/Write`.
-
-GPIO-I2C використовує push-pull SCL і перемикання SDA між output-low та
-input pull-up. Це лише симуляційний transport без clock stretching і
-multi-master. Перед зміною ODR на одиницю SDA вже переводиться у вхід;
-контролер не повинен активно подавати HIGH під час ACK/даних від датчика.
-
-У Wokwi SPI також виконується через GPIO: PA4 CS, PA5 SCK, PA6 MISO,
-PA7 MOSI, Mode 0, MSB first (`Core/Src/wokwi_spi.c`). Підключення не змінилися.
-`MX_SPI1_Init()` повертається до налаштування peripheral; командний байт
-і байти даних обмінюються full-duplex під одним CS. У фізичній збірці той самий
-протокол використовує `HAL_SPI_TransmitReceive`. SPI не має ACK: успішний
-обмін сам по собі не означає наявності датчика, тому ID має дорівнювати 0x58.
-Модель custom chip і її WASM цією зміною не змінені.
-
-### Навантаження симуляції
-
-OLED використовує один framebuffer 1024 байти та межі змінених колонок для
-кожної сторінки. Перший кадр/відновлення передає всі 1024 байти; незмінний кадр
-не передається; зміна однієї цифри зазвичай потребує до 5 байтів даних плюс
-команди вікна. Коротший текст очищає старі символи. ACK адреси перевіряється
-раз на секунду навіть за незмінного екрана, щоб виявляти відключення.
-Періоди вимірювань 100 мс і екрана 500 мс збережені. GPIO transport-файли
-компілюються з `-O2` і debug symbols, решта Debug-збірки зберігає свої опції.
-
-Кожні 5 секунд UART друкує `LOAD` і (для Wokwi) `SCHED`. `samples` — приріст
-вимірювань (приблизно 50 за 5 с); `oled_bytes` — приріст байтів framebuffer;
-`last_frame_ms` — час останнього оновлення; `heap_min` — мінімальний вільний
-RTOS heap. `idle_calls` і `switches` — прирости лічильників планувальника.
-`no_irq` — повернення з WFI без зміни лічильників SysTick/TIM2;
-`systick` і `tim2` — кількість відповідних IRQ за той самий інтервал.
-Приблизно 5000 IRQ кожного таймера за 5 секунд — очікуване значення.
-Сотні тисяч `idle_calls` разом із великим `no_irq` означають, що очікування
-не дає ефективного сну; це ще не визначає, чому саме симулятор повертає WFI.
-Надмірний `tim2`/`systick` натомість вказує на необхідність дослідити IRQ.
-Порожній шлях idle не перемикає PRIMASK; маска змінюється лише при обробці
-запиту перемикання задачі. Не додавати osDelay/HAL_Delay у idle hook:
-блокувати службову idle-задачу FreeRTOS не можна.
-
-У наданому скриншоті `LOAD ms=5196 samples=53`, `idle_calls=392692` і швидкість
-симуляції 5%. Обидва датчики читаються, але причину гальмування хоста цей лог
-не встановлює: `heap_min` — RAM мікроконтролера, НЕ RAM/swap Linux.
-Якщо Stop симуляції відновлює Linux, перевірити CPU, RAM і swap процесів
-VS Code/Wokwi в системному моніторі. Не залишати перевантажену симуляцію
-працювати надовго; достатньо першого `LOAD`/`SCHED` і повного `OLED FAIL`.
-
-### Окремий FreeRTOS port для Wokwi
-
-У Wokwi STM32F103 підтверджено дві несумісності штатного Cortex-M3 port:
-проба NVIC повертає нуль, а інструкція `svc 0` продовжує виконання без входу
-в `SVC_Handler`. Через це стандартний запуск першої задачі не працює.
-
-`WOKWI_SIMULATION=ON` (типово) підміняє лише portability layer на
-`portable/GCC/ARM_CM3_WOKWI`. FreeRTOS kernel, CMSIS-RTOS2, задачі, черги та
-м'ютекс не змінені. Цей port:
-
-- запускає першу задачу в Thread mode на PSP без SVC/EXC_RETURN;
-- зберігає та відновлює контекст при блокуванні або `taskYIELD()` без PendSV;
-- використовує SysTick 1000 Гц тільки для просування часу FreeRTOS;
-- залишає CubeMX TIM2 окремим 1-мс джерелом часу HAL;
-- захищає критичні секції через PRIMASK, не покладаючись на відсутні в моделі
-  біти пріоритету NVIC/BASEPRI;
-- ніколи не перемикає PSP усередині ISR: ISR лише ставить запит на yield.
-- відкладає yield із критичної секції до її зовнішнього виходу; захищає
-  збереження контексту від IRQ із першої інструкції.
-
-Усі прикладні задачі цього проєкту регулярно блокуються на delay/queue, що є
-обов'язковою умовою такого симуляційного port. Нескінченна прикладна петля без
-блокування або yield затримає інші задачі до наступної точки перемикання.
-
-Для Wokwi:
-
-```bash
-cmake --fresh --preset Debug -DWOKWI_SIMULATION=ON
-cmake --build --preset Debug
-```
-
-Для фізичного STM32F103:
-
-```bash
-cmake --fresh --preset Debug -DWOKWI_SIMULATION=OFF
-cmake --build --preset Debug
-```
-
-У фізичній збірці використовується незмінений штатний `ARM_CM3/port.c` із
-SVC/PendSV. `WOKWI_ENABLED` також вимкнений, тому виконується
-`SystemClock_Config`. WASM через цю зміну перезбирати не потрібно.
-
-Порт має лічильники `wokwi_port_tick_count`, `wokwi_port_switch_count` і прапор
-`wokwi_port_yield_pending`, доступні в GDB. Після старту перші два повинні рости.
-Реальну роботу задач, UART та OLED все одно потрібно підтвердити у Wokwi.
-
-Мінімальна перевірка після підключення GDB:
-
-```gdb
-break app_sensor_task
-break app_processing_task
-break app_display_task
-continue
-print wokwi_port_tick_count
-print wokwi_port_switch_count
-print xTickCount
-```
-
-Зупинка на кожній із трьох задач підтверджує запуск планувальника. Breakpoint на
-`SVC_Handler` або `PendSV_Handler` у цій збірці спрацьовувати не повинен — ці
-винятки навмисно виключені з Wokwi-port. У UART очікується префікс
-`BOOT PRESSURE PORT=WOKWI-DIRECT I2C=SOFT SPI=SOFT OLED=DIRTY`.
-Рядок `CHIP ID I2C=0x58 SPI=0x58 expected=0x58` підтверджує прочитані ID.
-
-CubeMX-конфігурація містить перевірки heap/stack, 8192 байти RTOS heap та
-наявні розміри черг/стеків. При регенерації ввімкнути Keep User Code.
-Прикладні файли підключені у верхньому CMakeLists, не в згенерованому списку.
-
-## Діагностика без робочого OLED
-
-UART повідомляє старт, перший результат, зміни статусів, утримувані попередження,
-відмови й відновлення OLED. Після старту рядок `TIME` містить прирости RTOS/HAL
-лічильників: вони мають бути приблизно однакові. Порівняти їх також із часом
-симуляції, а не лише один з одним. HAL timebase TIM2 повинен працювати, інакше
-блокуючий HAL не зможе завершити timeout. У такому випадку потрібен GDB.
-
-Приклад формату повідомлення про збій (не результат проведеної симуляції):
+the standard:
 
 ```text
-OLED FAIL phase=2 cmd=0x21 page=0 HAL=1 ERR=0x00000020 hal_ms=1234 rtos_ms=1230 count=1
+portable/GCC/ARM_CM3/port.c
 ```
 
-`phase`: 0 — probe, 1 — ініціалізаційна команда, 2 — адресне вікно,
-3 — дані сторінки. HAL: 0 OK, 1 ERROR, 2 BUSY, 3 TIMEOUT.
-`ERR` — бітова маска STM32 HAL, не статус дисплея; `0x04` — AF/NACK,
-`0x20` — timeout. Рядок `OLED READY: frame synchronized` означає успішне
-оновлення всіх змінених сторінок; після ініціалізації це повний кадр.
-Видиме зображення потрібно підтвердити в Wokwi.
-Повторна ініціалізація не стирає `oled.failure`.
-`OLED DEFERRED` означає тайм-аут м'ютекса, а не помилку SSD1306: кадр
-і стан ініціалізації зберігаються для наступної спроби. При помилці передачі
-детальний `OLED FAIL` друкується **перед** повідомленням `OLED OFFLINE`.
+is replaced by:
 
-```gdb
-target remote localhost:3333
-print app_fault
-print app_debug
-print oled.failure
-print hi2c1.ErrorCode
-bt
-info registers pc lr sp
+```text
+portable/GCC/ARM_CM3_WOKWI/port.c
 ```
 
-`app_debug`: лічильники задач/кадрів, відкинуті повідомлення, відновлення I2C,
-HAL/RTOS час, вільний та мінімальний heap, залишки стеків у байтах.
-`app_fault`: 0 none, 1 kernel, 2 object, 3 queue, 4 heap, 5 stack, 6 HAL.
-Для переповнення стека `app_fault_task` містить ім’я задачі. Аварійні hooks
-не викликають UART чи затримки; залишають причину для GDB й зупиняються.
-`app_debug.display_stage`: 0 — delay, 1 — отримання результатів, 2 — UART
-станів датчиків, 3 — OLED, 4 — звіт OLED, 5 — діагностика ресурсів.
-Якщо UART зупинився, цей стан разом із `bt` допомагає знайти місце зупинки.
+The **FreeRTOS kernel itself is not modified**.
 
-## Перевірка кінцевої системи
+The custom Wokwi portability layer:
 
-Без додаткової тестової прошивки:
+- starts the first task directly in Thread mode using PSP;
+- performs context switching without relying on PendSV;
+- uses SysTick at 1000 Hz for the FreeRTOS time base;
+- saves and restores task context at safe Thread-mode switching points;
+- uses PRIMASK to protect critical sections.
 
-- Задати обом датчикам pressure=101325, noise=0, spike=0: після заповнення
-  медіани обидва канали мають показати 1013.25 HPA та DIFF 0.00.
-- Увімкнути noise і spike: стрибок моделі +5000 Па приблизно раз на 10 секунд;
-  має з’являтися попередження, а не сталий стрибок відфільтрованого тиску.
-- Змінити pressure надовго: нове значення приймається; різниця понад 1000 Па
-  дає MISMATCH. Pressure=125000 дає RANGE, повернення до 101325 — WAIT, потім OK.
-- Запустити схему без одного датчика: другий канал працює. Відсутність SPI
-  може визначатися як ID або RANGE (SPI не має ACK), це не обов’язково HAL COMM.
-- Запустити без OLED: UART і датчики продовжують працювати. Після відновлення
-  доступності пристрою повторна ініціалізація має відновити вивід.
-- Кілька хвилин роботи: ростуть лічильники задач і кадрів, heap не зменшується,
-  `app_fault == 0`, стеки мають запас. Статична RAM + зарезервовані heap/stack
-  повинні вміститися в 20 KiB; перевірити ELF/map після справжньої ARM-збірки.
+When `WOKWI_SIMULATION=OFF`, the project returns to the standard FreeRTOS Cortex-M3 port.
 
-У наданому користувачем скриншоті підтверджені I2C/SPI-тиск та зображення
-OLED, але за кілька секунд симуляція сильно сповільнюється. Для змін локально перевіряються
-ARM-об’єкти (Clang), byte-callback протокол існуючого WASM і логіка часткового
-оновлення OLED з імітованим transport. Ці перевірки не запускають модель
-STM32 у Wokwi й не вимірюють навантаження Linux. Фінальна GNU ARM-збірка,
-усунення перевантаження хоста та тривалий запуск симуляції мають бути перевірені на Linux.
+### Software I2C
+
+The physical version uses the STM32 **I2C1 peripheral** on PB6/PB7.
+
+For the Wokwi simulation, I2C is implemented in software in:
+
+```text
+Core/Src/wokwi_i2c.c
+```
+
+The simulated bus uses:
+
+```text
+PB8 -> SCL
+PB9 -> SDA
+```
+
+The software implementation generates START, STOP, ACK, repeated START and data transfers directly through GPIO.
+
+It also supports bus recovery using nine SCL pulses.
+
+This implementation exists only as a Wokwi compatibility layer and is not used in the physical STM32 build.
+
+### Software SPI
+
+The physical version uses the STM32 **SPI1 peripheral**.
+
+In Wokwi, SPI signaling is generated directly through GPIO by:
+
+```text
+Core/Src/wokwi_spi.c
+```
+
+The pin configuration remains:
+
+```text
+PA4 -> CS
+PA5 -> SCK
+PA6 -> MISO
+PA7 -> MOSI
+```
+
+The protocol remains SPI Mode 0, MSB first.
+
+### Custom BMP280 Model
+
+The Wokwi simulation uses a custom BMP280 model implemented in:
+
+```text
+chips/bmp280.chip.c
+```
+
+The model supports both I2C and SPI communication and allows the simulation to configure pressure, noise, and artificial pressure spikes.
+
+For testing purposes, the custom model uses a simplified pressure representation:
+
+```text
+raw20 = pressure_pa << 3
+```
+
+Therefore, the simulated pressure encoding is **not the real Bosch BMP280 ADC and compensation algorithm**.
+
+The custom chip is intended to test the embedded architecture, communication interfaces, RTOS synchronization, filtering, error handling, and display logic.
+
+---
+
+## OLED Output
+
+The SSD1306 driver uses a **1024-byte framebuffer** for the 128×64 display.
+
+The first frame updates the complete display. After that, the driver tracks which columns have changed and transfers only the modified parts of the framebuffer.
+
+This reduces unnecessary I2C traffic.
+
+The display shows:
+
+```text
+PRESSURE MONITOR
+
+I2C: xxxx.xx HPA
+OK
+
+SPI: xxxx.xx HPA
+OK
+
+DIFF: xx.xx HPA
+STATUS: OK
+```
+
+If a sensor fails, the corresponding pressure value is replaced by an error state instead of displaying an old measurement as if it were still valid.
+
+---
+
+## Project Structure
+
+```text
+WokwiSystem/
+│
+├── Core/
+│   ├── Inc/
+│   │   ├── app_config.h
+│   │   ├── app_tasks.h
+│   │   ├── app_types.h
+│   │   ├── bmp280.h
+│   │   ├── pressure_processing.h
+│   │   ├── ssd1306.h
+│   │   ├── wokwi_i2c.h
+│   │   └── wokwi_spi.h
+│   │
+│   └── Src/
+│       ├── main.c
+│       ├── app_tasks.c
+│       ├── pressure_processing.c
+│       ├── bmp280.c
+│       ├── ssd1306.c
+│       ├── wokwi_i2c.c
+│       └── wokwi_spi.c
+│
+├── Middlewares/
+│   └── Third_Party/FreeRTOS/
+│       └── Source/portable/GCC/
+│           └── ARM_CM3_WOKWI/
+│               └── port.c
+│
+├── chips/
+│   └── bmp280.chip.c
+│
+├── docs/
+│   └── wokwi-pressure-monitor.png
+│
+├── diagram.json
+├── wokwi.toml
+└── CMakeLists.txt
+```
+
+---
+
+## Result
+
+The final simulation contains two independent BMP280 pressure sensors connected to the STM32F103 using **I2C** and **SPI**.
+
+`SensorTask` periodically acquires measurements, `ProcessingTask` validates and filters the data, and `DisplayTask` presents the final result on the SSD1306 OLED.
+
+The screenshot below shows the complete Wokwi circuit and the resulting OLED output.
+
+![Wokwi Pressure Monitor](docs/wokwi-pressure-monitor.png)
