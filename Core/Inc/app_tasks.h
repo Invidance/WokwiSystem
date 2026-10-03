@@ -13,6 +13,15 @@ typedef enum {
   APP_FAULT_HAL
 } AppFault;
 
+typedef enum {
+  APP_DISPLAY_WAIT = 0,
+  APP_DISPLAY_RECEIVE,
+  APP_DISPLAY_LOG,
+  APP_DISPLAY_OLED,
+  APP_DISPLAY_OLED_REPORT,
+  APP_DISPLAY_RESOURCES
+} AppDisplayStage;
+
 /* Read-only diagnostics for GDB. No application decisions depend on these. */
 typedef struct {
   uint32_t sensor_cycles, processing_cycles, display_cycles, oled_frames;
@@ -22,6 +31,7 @@ typedef struct {
   uint32_t stack_free_bytes[3];
   uint32_t chip_id[2];
   uint32_t oled_data_bytes, oled_update_ms;
+  uint32_t display_stage; /* AppDisplayStage: location if DisplayTask stops. */
 } AppDebug;
 
 extern volatile AppDebug app_debug;

@@ -22,6 +22,8 @@ extern void * volatile pxCurrentTCB;
 volatile uint32_t wokwi_port_tick_count;
 volatile uint32_t wokwi_port_switch_count;
 volatile uint32_t wokwi_port_idle_calls;
+volatile uint32_t wokwi_port_idle_no_irq;
+extern volatile uint32_t app_tim2_irq_count;
 volatile BaseType_t wokwi_port_yield_pending;
 
 static UBaseType_t uxCriticalNesting;
@@ -176,6 +178,7 @@ BaseType_t xPortStartScheduler( void )
     wokwi_port_tick_count = 0U;
     wokwi_port_switch_count = 0U;
     wokwi_port_idle_calls = 0U;
+    wokwi_port_idle_no_irq = 0U;
     wokwi_port_yield_pending = pdFALSE;
     vPortSetupTimerInterrupt();
     prvStartFirstTask();
@@ -209,21 +212,26 @@ void vPortExitCritical( void )
 void vApplicationIdleHook( void )
 {
     ++wokwi_port_idle_calls;
-    /* Check before sleeping, and consume the request atomically with respect
-     * to SysTick. Otherwise a wake request can be cleared after a newer IRQ. */
-    portDISABLE_INTERRUPTS();
+    /* The common no-work path must NOT toggle PRIMASK on every iteration.
+     * In a simulator where WFI returns early, that repeatedly updates the
+     * simulated interrupt controller even though there is nothing to do. */
     if( wokwi_port_yield_pending != pdFALSE ) {
+        /* Consume only under the mask: SysTick can post another request. */
+        portDISABLE_INTERRUPTS();
         wokwi_port_yield_pending = pdFALSE;
         portENABLE_INTERRUPTS();
         vPortYieldDirect();
     } else {
-        /* Keep WFI with IRQs enabled, as in the confirmed simulator run.
-         * A tick in the small gap before WFI delays dispatch by at most the
-         * next 1ms tick; it cannot lose the recorded yield request. */
-        portENABLE_INTERRUPTS();
+        /* A tick before WFI can delay dispatch by at most the next 1ms tick.
+         * Do not replace this with osDelay: the RTOS idle task may not block.
+         * Measure ineffective sleep instead of assuming WFI is implemented. */
+        uint32_t before = wokwi_port_tick_count + app_tim2_irq_count;
         __asm volatile( "dsb" ::: "memory" );
-        __asm volatile( "wfi" );
+        __asm volatile( "wfi" ::: "memory" );
         __asm volatile( "isb" ::: "memory" );
+        if( before == wokwi_port_tick_count + app_tim2_irq_count ) {
+            ++wokwi_port_idle_no_irq;
+        }
     }
 }
 

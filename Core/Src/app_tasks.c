@@ -30,7 +30,10 @@ static ssd1306_t oled; /* DisplayTask is the sole owner. */
 #define APP_I2C_TRANSPORT_NAME "SOFT"
 #define APP_SPI_TRANSPORT_NAME "SOFT"
 extern volatile uint32_t wokwi_port_idle_calls;
+extern volatile uint32_t wokwi_port_idle_no_irq;
 extern volatile uint32_t wokwi_port_switch_count;
+extern volatile uint32_t wokwi_port_tick_count;
+extern volatile uint32_t app_tim2_irq_count;
 #else
 #define APP_RTOS_PORT_NAME "ARM-CM3"
 #define APP_I2C_TRANSPORT_NAME "HAL"
@@ -276,34 +279,36 @@ static void draw_frame(const DisplayData_t *data)
   ssd1306_write_line(&oled, 7U, summary);
 }
 
-static bool update_oled(const DisplayData_t *data)
+typedef enum { OLED_UPDATED, OLED_BUS_WAIT, OLED_IO_ERROR } OledUpdate;
+
+static OledUpdate update_oled(const DisplayData_t *data)
 {
   static uint32_t last_probe;
   uint32_t started = now_ms();
   if (!oled.initialized) {
-    if (!lock_i2c()) { return false; }
+    if (!lock_i2c()) { return OLED_BUS_WAIT; }
     bool ready = ssd1306_init(&oled, &hi2c1, APP_OLED_ADDRESS);
     if (!ready) { recover_i2c(oled.last_status, oled.last_i2c_error); }
     osMutexRelease(i2cmutexHandle);
-    if (!ready) { return false; }
+    if (!ready) { return OLED_IO_ERROR; }
     last_probe = now_ms();
   } else if ((uint32_t)(now_ms() - last_probe) >= APP_RETRY_MS) {
     /* Dirty rendering may send no data at all. Still detect disconnection. */
-    if (!lock_i2c()) { return false; }
+    if (!lock_i2c()) { return OLED_BUS_WAIT; }
     bool ready = ssd1306_probe(&oled);
     if (!ready) { recover_i2c(oled.last_status, oled.last_i2c_error); }
     osMutexRelease(i2cmutexHandle);
     last_probe = now_ms();
-    if (!ready) { return false; }
+    if (!ready) { return OLED_IO_ERROR; }
   }
   draw_frame(data); /* Rendering never holds the bus. */
   for (uint8_t page = 0; page < SSD1306_PAGES; ++page) {
     if (oled.dirty_first[page] >= SSD1306_WIDTH) { continue; }
-    if (!lock_i2c()) { return false; }
+    if (!lock_i2c()) { return OLED_BUS_WAIT; }
     bool sent = ssd1306_update_page(&oled, page);
     if (!sent) { recover_i2c(oled.last_status, oled.last_i2c_error); }
     osMutexRelease(i2cmutexHandle);
-    if (!sent) { return false; }
+    if (!sent) { return OLED_IO_ERROR; }
 #if defined(WOKWI_ENABLED)
     /* A software-I2C page is long enough for SensorTask to become ready.
      * The Wokwi port switches only at explicit Thread-mode yield points. */
@@ -313,7 +318,7 @@ static bool update_oled(const DisplayData_t *data)
   ++app_debug.oled_frames;
   app_debug.oled_data_bytes = oled.data_bytes_sent;
   app_debug.oled_update_ms = now_ms() - started;
-  return true;
+  return OLED_UPDATED;
 }
 
 static void sample_resources(void)
@@ -333,6 +338,7 @@ void app_display_task(void)
   DisplayData_t latest = { .timestamp_ms = now_ms() };
   DisplayData_t logged = {0};
   bool have_log = false, oled_ok = false, oled_attempted = false;
+  OledUpdate previous_oled_result = OLED_IO_ERROR;
   uint32_t last_oled_attempt = 0, reported_failure = 0;
   uint32_t reported_mutex = 0;
   snprintf(line, sizeof(line),
@@ -347,10 +353,13 @@ void app_display_task(void)
   uint32_t stats_sensors = 0U;
 #if defined(WOKWI_ENABLED)
   uint32_t stats_idle = wokwi_port_idle_calls, stats_switches = wokwi_port_switch_count;
+  uint32_t stats_no_irq = wokwi_port_idle_no_irq;
+  uint32_t stats_tick = wokwi_port_tick_count, stats_tim2 = app_tim2_irq_count;
 #endif
   osDelay(APP_OLED_BOOT_MS);
   uint32_t deadline = now_ms();
   for (;;) {
+    app_debug.display_stage = APP_DISPLAY_RECEIVE;
     DisplayData_t queued;
     while (osMessageQueueGet(DisplayQueueHandle, &queued, NULL, 0U) == osOK) {
       latest = queued;
@@ -364,6 +373,7 @@ void app_display_task(void)
                  view.channel[i].hal_error != logged.channel[i].hal_error;
     }
     if (changed) {
+      app_debug.display_stage = APP_DISPLAY_LOG;
       snprintf(line, sizeof(line), "CHIP ID I2C=0x%02lX SPI=0x%02lX expected=0x58\r\n",
                (unsigned long)app_debug.chip_id[0], (unsigned long)app_debug.chip_id[1]);
       uart_line(line);
@@ -392,14 +402,14 @@ void app_display_task(void)
 
     if (oled_ok || !oled_attempted ||
         (uint32_t)(now_ms() - last_oled_attempt) >= APP_RETRY_MS) {
-      bool was_ok = oled_ok;
-      oled_ok = update_oled(&view);
-      if (!oled_ok) { oled.initialized = false; }
-      if (!oled_attempted || oled_ok != was_ok) {
-        uart_line(oled_ok ? "OLED READY: full frame sent\r\n" : "OLED OFFLINE\r\n");
-      }
-      oled_attempted = true;
+      app_debug.display_stage = APP_DISPLAY_OLED;
+      OledUpdate result = update_oled(&view);
+      oled_ok = result == OLED_UPDATED;
+      /* The driver invalidates itself on an actual I/O error. A mutex wait
+       * leaves the initialized display and its dirty columns intact. Do not
+       * amplify contention into another 1024-byte initialization frame. */
       last_oled_attempt = now_ms();
+      app_debug.display_stage = APP_DISPLAY_OLED_REPORT;
       if (oled.failure.count != reported_failure) {
         const ssd1306_failure_t *f = &oled.failure;
         snprintf(line, sizeof(line),
@@ -411,6 +421,13 @@ void app_display_task(void)
         uart_line(line);
         reported_failure = f->count;
       }
+      if (!oled_attempted || result != previous_oled_result) {
+        uart_line(result == OLED_UPDATED ? "OLED READY: frame synchronized\r\n" :
+                  result == OLED_BUS_WAIT ? "OLED DEFERRED: I2C mutex timeout, frame retained\r\n" :
+                  "OLED OFFLINE: I2C transfer failed\r\n");
+      }
+      previous_oled_result = result;
+      oled_attempted = true;
     }
     if (app_debug.mutex_timeouts != reported_mutex) {
       uart_line("I2C MUTEX TIMEOUT\r\n");
@@ -419,6 +436,7 @@ void app_display_task(void)
     HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13,
         view.warnings != 0U || !oled_ok ? GPIO_PIN_RESET : GPIO_PIN_SET);
     ++app_debug.display_cycles;
+    app_debug.display_stage = APP_DISPLAY_RESOURCES;
     sample_resources();
     if (!clock_reported && (uint32_t)(now_ms() - start_rtos) >= 1000U) {
       snprintf(line, sizeof(line),
@@ -442,17 +460,24 @@ void app_display_task(void)
                (unsigned long)app_debug.heap_min_free);
       uart_line(line);
 #if defined(WOKWI_ENABLED)
-      snprintf(line, sizeof(line), "SCHED idle_calls=%lu switches=%lu\r\n",
+      snprintf(line, sizeof(line), "SCHED idle_calls=%lu no_irq=%lu systick=%lu tim2=%lu switches=%lu\r\n",
                (unsigned long)(wokwi_port_idle_calls - stats_idle),
+               (unsigned long)(wokwi_port_idle_no_irq - stats_no_irq),
+               (unsigned long)(wokwi_port_tick_count - stats_tick),
+               (unsigned long)(app_tim2_irq_count - stats_tim2),
                (unsigned long)(wokwi_port_switch_count - stats_switches));
       uart_line(line);
       stats_idle = wokwi_port_idle_calls;
       stats_switches = wokwi_port_switch_count;
+      stats_no_irq = wokwi_port_idle_no_irq;
+      stats_tick = wokwi_port_tick_count;
+      stats_tim2 = app_tim2_irq_count;
 #endif
       stats_time = now_ms();
       stats_bytes = oled.data_bytes_sent;
       stats_sensors = app_debug.sensor_cycles;
     }
+    app_debug.display_stage = APP_DISPLAY_WAIT;
     wait_period(&deadline, APP_DISPLAY_PERIOD_MS);
   }
 }
